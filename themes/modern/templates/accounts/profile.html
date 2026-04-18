@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Account Dashboard — Aurélie Parfum{% endblock %}
+
+{% block content %}
+<div class="py-20 md:py-28" style="background-color: #fafafa; min-height: 100vh;">
+    <div class="max-w-[1300px] mx-auto px-6">
+        
+        <div class="mb-12 border-b border-black/[0.05] pb-8">
+            <span class="text-[10px] tracking-[0.4em] uppercase text-gold font-bold mb-2 block">Personal Sanctuary</span>
+            <h1 class="font-serif text-4xl md:text-5xl text-blackMain tracking-tight">
+               Hello {{ user.first_name|default:user.username }}
+            </h1>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            
+            <div class="lg:col-span-3">
+                <nav class="space-y-1">
+                    <a href="#" class="flex items-center justify-between group py-4 border-b border-black/5">
+                        <span class="text-[11px] tracking-[0.2em] uppercase font-semibold text-black">Dashboard</span>
+                        <span class="text-gold">✦</span>
+                    </a>
+                    <a href="{% url 'order_history' %}" class="flex items-center justify-between group py-4 border-b border-black/5 opacity-50 hover:opacity-100 transition">
+                        <span class="text-[11px] tracking-[0.2em] uppercase">My Orders</span>
+                        <span class="translate-x-[-10px] opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all">→</span>
+                    </a>
+                    <a href="{% url 'wishlist' %}" class="flex items-center justify-between group py-4 border-b border-black/5 opacity-50 hover:opacity-100 transition">
+                        <span class="text-[11px] tracking-[0.2em] uppercase">Wishlist</span>
+                        <span class="translate-x-[-10px] opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all">→</span>
+                    </a>
+                    <a href="{% url 'edit_profile' %}" class="flex items-center justify-between group py-4 border-b border-black/5 opacity-50 hover:opacity-100 transition">
+                        <span class="text-[11px] tracking-[0.2em] uppercase">Settings</span>
+                        <span class="translate-x-[-10px] opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all">→</span>
+                    </a>
+                    <a href="{% url 'logout' %}" class="flex items-center group py-4 text-red-800 opacity-60 hover:opacity-100 transition">
+                        <span class="text-[11px] tracking-[0.2em] uppercase">Sign Out</span>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="lg:col-span-9 space-y-10">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <div class="bg-white p-10 border border-black/[0.03] shadow-[0_10px_40px_rgba(0,0,0,0.02)] relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 p-6 opacity-[0.03] group-hover:opacity-10 transition-opacity">
+                            <svg class="w-20 h-20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        </div>
+                        
+                        <h3 class="text-[10px] tracking-[0.3em] uppercase text-gold font-bold mb-8">Profile Details</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="border-l border-gold/30 pl-4">
+                                <p class="text-[9px] uppercase text-black/40 tracking-widest mb-1">Email Address</p>
+                                <p class="text-sm font-medium">{{ user.email|default:"Not provided" }}</p>
+                            </div>
+                            <div class="border-l border-gold/30 pl-4">
+                                <p class="text-[9px] uppercase text-black/40 tracking-widest mb-1">Full Name</p>
+                                <p class="text-sm font-medium">{{ user.get_full_name|default:user.username }}</p>
+                            </div>
+                            <div class="border-l border-gold/30 pl-4">
+                                <p class="text-[9px] uppercase text-black/40 tracking-widest mb-1">Membership</p>
+                                <p class="text-sm font-medium italic">Since {{ user.date_joined|date:"M Y" }}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-10">
+                            <a href="{% url 'edit_profile' %}" class="text-[10px] tracking-[0.2em] uppercase border-b border-black pb-1 hover:text-gold hover:border-gold transition">
+                                Edit Details
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#0b0806] p-10 text-white relative group overflow-hidden">
+                        <h3 class="text-[10px] tracking-[0.3em] uppercase text-gold font-bold mb-8">Quick Actions</h3>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <a href="{% url 'product_list' %}" class="bg-white/5 border border-white/10 p-6 text-center hover:bg-gold hover:text-black transition duration-500">
+                                <span class="block text-lg mb-2">🛍️</span>
+                                <span class="text-[9px] tracking-[0.15em] uppercase">Shop</span>
+                            </a>
+                            <a href="{% url 'cart_detail' %}" class="bg-white/5 border border-white/10 p-6 text-center hover:bg-gold hover:text-black transition duration-500">
+                                <span class="block text-lg mb-2">🛒</span>
+                                <span class="text-[9px] tracking-[0.15em] uppercase">Cart</span>
+                            </a>
+                        </div>
+
+                        <div class="mt-8 pt-8 border-t border-white/10">
+                            <p class="text-white/40 text-[10px] tracking-widest leading-relaxed">
+                                Curating your perfect scent profile. Every choice reflects your essence.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="bg-white border border-black/[0.03] p-10">
+                    <h3 class="text-[10px] tracking-[0.3em] uppercase text-black font-bold mb-10">Recent Activity</h3>
+                    
+                    <div class="flex flex-col items-center justify-center py-16 opacity-20">
+                        <div class="w-16 h-[1px] bg-black mb-6"></div>
+                        <p class="text-[11px] tracking-[0.3em] uppercase italic">No recent movements</p>
+                        <div class="w-16 h-[1px] bg-black mt-6"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

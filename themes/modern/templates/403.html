@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block meta_title %}
+<title>403 — Forbidden | Aurélie Parfum</title>
+<meta name="robots" content="noindex">
+{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="You don't have permission to access this page.">
+{% endblock %}
+
+{% block content %}
+<style>
+    .error-page {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4rem 1.5rem;
+        background: #fff;
+        position: relative;
+        overflow: hidden;
+    }
+    .error-page::before {
+        content: '403';
+        position: absolute;
+        font-size: 40vw;
+        font-weight: 900;
+        color: rgba(0,0,0,0.03);
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        letter-spacing: -0.05em;
+        line-height: 1;
+        font-family: 'Futura', sans-serif;
+    }
+    .error-inner {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        max-width: 640px;
+    }
+    .error-eyebrow {
+        display: inline-block;
+        font-size: 10px;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: #d4af37;
+        border: 1px solid #d4af37;
+        padding: 6px 20px;
+        margin-bottom: 2.5rem;
+    }
+    .error-code {
+        font-size: clamp(5rem, 15vw, 10rem);
+        font-weight: 900;
+        color: #000;
+        line-height: 1;
+        letter-spacing: -0.04em;
+        font-family: 'Futura', sans-serif;
+        margin-bottom: 0.5rem;
+    }
+    .error-code span { color: #d4af37; }
+    .error-title {
+        font-size: clamp(1.1rem, 3vw, 1.6rem);
+        font-weight: 400;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #111;
+        margin-bottom: 1.5rem;
+        font-family: 'Futura', sans-serif;
+    }
+    .error-divider {
+        width: 60px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #d4af37, transparent);
+        margin: 0 auto 2rem;
+    }
+    .error-message {
+        font-size: 1rem;
+        color: #666;
+        line-height: 1.9;
+        margin: 0 auto 3rem;
+        max-width: 460px;
+    }
+    .error-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .error-btn-primary {
+        display: inline-block;
+        padding: 14px 36px;
+        background: #000;
+        color: #fff;
+        text-decoration: none;
+        font-size: 10px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+    }
+    .error-btn-primary:hover { background: #d4af37; color: #000; transform: translateY(-2px); }
+    .error-btn-gold {
+        display: inline-block;
+        padding: 14px 36px;
+        background: #d4af37;
+        color: #000;
+        text-decoration: none;
+        font-size: 10px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+    }
+    .error-btn-gold:hover { background: #b8942f; transform: translateY(-2px); }
+    .error-btn-outline {
+        display: inline-block;
+        padding: 13px 36px;
+        border: 1px solid #000;
+        color: #000;
+        text-decoration: none;
+        font-size: 10px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+    }
+    .error-btn-outline:hover { background: #000; color: #fff; transform: translateY(-2px); }
+    .error-icon { font-size: 3rem; margin-bottom: 1.5rem; display: block; }
+</style>
+
+<div class="error-page">
+    <div class="error-inner">
+        <span class="error-icon">🔒</span>
+
+        <div class="error-eyebrow">Access Restricted</div>
+
+        <div class="error-code">4<span>0</span>3</div>
+
+        <h1 class="error-title">Forbidden</h1>
+
+        <div class="error-divider"></div>
+
+        <p class="error-message">
+            This area is reserved — like our most exclusive fragrances.<br>
+            You don't have permission to access this page.
+        </p>
+
+        <div class="error-actions">
+            <a href="{% url 'home' %}" class="error-btn-primary">Return Home</a>
+            {% if not user.is_authenticated %}
+            <a href="{% url 'login' %}" class="error-btn-gold">Sign In</a>
+            {% endif %}
+            <a href="{% url 'contact_us' %}" class="error-btn-outline">Contact Support</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

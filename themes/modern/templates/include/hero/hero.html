@@ -1,0 +1,95 @@
+<section class="relative w-full h-[90vh] sm:h-[75vh] md:h-[80vh] lg:h-[80vh] 2xl:h-[85vh] overflow-hidden bg-black">
+
+    <div id="slider" class="w-full h-full relative" style="width: 100%; height: 100%; position: relative;">
+        
+        <a href="themes/modern/templates/home.html" class="slide"
+           style="position: absolute; inset: 0; opacity: 1; transition: opacity 0.8s ease-in-out; z-index: 20; display: block; pointer-events: auto;">
+            <img src="/media/banner/ hero/121.jpg" class="hidden md:block w-full h-full object-cover" style="width: 100%; height: 100%; object-fit: cover;">
+            <img src="/media/banner/ hero/121.jpg" class="block md:hidden w-full h-full object-cover" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; inset: 0; background-color: rgba(0, 0, 0, 0.3); pointer-events: none;"></div>
+        </a>
+
+         <a href="/products/savnore-perfume/" class="slide"
+           style="position: absolute; inset: 0; opacity: 0; transition: opacity 0.8s ease-in-out; z-index: 10; display: block; pointer-events: none;">
+            <img src="/media/banner/ hero/banner1.2.jpg" class="hidden md:block w-full h-full object-cover" style="width: 100%; height: 100%; object-fit: cover;">
+            <img src="/media/banner/ hero/mobbanner2.png" class="block md:hidden w-full h-full object-cover" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; inset: 0; background-color: rgba(0, 0, 0, 0.3); pointer-events: none;"></div>
+        </a> 
+
+            <a href="/products/floral-crush-perfume/" class="slide"
+           style="position: absolute; inset: 0; opacity: 0; transition: opacity 0.8s ease-in-out; z-index: 10; display: block; pointer-events: none;">
+            <img src="/media/banner/ hero/banner1.3.jpg" class="hidden md:block w-full h-full object-cover" style="width: 100%; height: 100%; object-fit: cover;">
+            <img src="/media/banner/ hero/mobileflora.png" class="block md:hidden w-full h-full object-cover" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; inset: 0; background-color: rgba(0, 0, 0, 0.3); pointer-events: none;"></div>
+        </a>
+    </div>
+
+    <button onclick="handlePrev()" 
+        style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background-color: rgba(0,0,0,0.4); color: white; padding: 10px 15px; border-radius: 50%; z-index: 40; border: none; cursor: pointer; font-size: 16px;">
+        ❮
+    </button>
+
+    <button onclick="handleNext()" 
+        style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background-color: rgba(0,0,0,0.4); color: white; padding: 10px 15px; border-radius: 50%; z-index: 40; border: none; cursor: pointer; font-size: 16px;">
+        ❯
+    </button>
+
+</section>
+
+<script>
+let current = 0; 
+const slides = document.querySelectorAll(".slide");
+const totalSlides = slides.length;
+let slideInterval;
+
+function startAutoSlide() {
+    clearInterval(slideInterval);
+    if (totalSlides > 1) {
+        slideInterval = setInterval(nextSlide, 5000);
+    }
+}
+
+function showSlide(index) {
+    slides.forEach((slide, i) => {
+        if (i === index) {
+            slide.style.opacity = "1";
+            slide.style.zIndex = "20";
+            slide.style.pointerEvents = "auto";
+        } else {
+            slide.style.opacity = "0";
+            slide.style.zIndex = "10";
+            slide.style.pointerEvents = "none";
+        }
+    });
+}
+
+function nextSlide() {
+    current = (current + 1) % totalSlides;
+    showSlide(current);
+}
+
+function prevSlide() {
+    current = (current - 1 + totalSlides) % totalSlides;
+    showSlide(current);
+}
+
+function handleNext() {
+    nextSlide();
+    startAutoSlide();
+}
+
+function handlePrev() {
+    prevSlide();
+    startAutoSlide();
+}
+
+// Initializing
+if (totalSlides > 0) {
+    showSlide(0);
+    startAutoSlide();
+}
+
+const sliderArea = document.getElementById("slider");
+sliderArea.addEventListener("mouseenter", () => clearInterval(slideInterval));
+sliderArea.addEventListener("mouseleave", startAutoSlide);
+</script>

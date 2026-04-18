@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Find Your Perfect Fragrance - Aurélie Parfum{% endblock %}
+
+{% block content %}
+<div class="quiz-container" style="min-height: 100vh; background: linear-gradient(135deg, #f5f1e8 0%, #e8e2d5 100%); padding: 3rem 1rem;">
+    <div class="container" style="max-width: 900px; margin: 0 auto;">
+
+        <!-- Quiz Header -->
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <h1 style="font-size: 2.5rem; color: var(--color-primary); margin-bottom: 1rem; font-weight: 700;">
+                🎯 Find Your Perfect Fragrance
+            </h1>
+            <p style="font-size: 1.2rem; color: var(--color-text-light); max-width: 600px; margin: 0 auto;">
+                Answer 5 quick questions to discover fragrances that match your unique style and preferences
+            </p>
+            <div style="margin-top: 1.5rem; padding: 1rem 2rem; background: rgba(212, 175, 55, 0.1); border-radius: 50px; display: inline-block;">
+                <span style="font-weight: 600; color: var(--color-gold);">⏱️ Takes only 60 seconds</span>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div style="margin-bottom: 3rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span style="font-size: 0.9rem; color: var(--color-text-light);">Progress</span>
+                <span id="progressText" style="font-size: 0.9rem; font-weight: 600; color: var(--color-primary);">Question 1 of {{ questions.count }}</span>
+            </div>
+            <div style="height: 8px; background: rgba(212, 175, 55, 0.2); border-radius: 10px; overflow: hidden;">
+                <div id="progressBar" style="height: 100%; background: linear-gradient(90deg, var(--color-gold), var(--color-rose-gold)); width: 0%; transition: width 0.3s ease;"></div>
+            </div>
+        </div>
+
+        <!-- Quiz Form -->
+        <form id="quizForm">
+            {% for question in questions %}
+            <div class="quiz-question" data-question="{{ forloop.counter }}" style="display: {% if forloop.first %}block{% else %}none{% endif %}; background: white; padding: 2.5rem; border-radius: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); margin-bottom: 2rem;">
+
+                <h2 style="font-size: 1.8rem; color: var(--color-primary); margin-bottom: 2rem; text-align: center;">
+                    {{ question.question_text }}
+                </h2>
+
+                <div class="options-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    {% for option in question.options.all %}
+                    <label class="quiz-option" style="cursor: pointer;">
+                        <input type="radio" name="question_{{ question.id }}" value="{{ option.id }}" style="display: none;" required>
+                        <div class="option-card" style="padding: 2rem 1.5rem; border: 2px solid #e0e0e0; border-radius: 15px; text-align: center; transition: all 0.3s ease; background: white;">
+                            <div style="font-size: 3rem; margin-bottom: 0.8rem;">{{ option.emoji }}</div>
+                            <div style="font-size: 1.05rem; font-weight: 600; color: var(--color-primary);">{{ option.option_text }}</div>
+                        </div>
+                    </label>
+                    {% endfor %}
+                </div>
+
+            </div>
+            {% endfor %}
+
+            <!-- Navigation Buttons -->
+            <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+                <button type="button" id="prevBtn" style="display: none; padding: 1rem 2.5rem; background: white; color: var(--color-primary); border: 2px solid var(--color-gold); border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;">
+                    ← Previous
+                </button>
+                <button type="button" id="nextBtn" style="padding: 1rem 2.5rem; background: linear-gradient(135deg, var(--color-gold), #f4d03f); color: var(--color-primary); border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(212,175,55,0.3);">
+                    Next →
+                </button>
+                <button type="submit" id="submitBtn" style="display: none; padding: 1rem 2.5rem; background: linear-gradient(135deg, var(--color-rose-gold), #d4af37); color: white; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(212,175,55,0.3);">
+                    🎁 Get My Recommendations
+                </button>
+            </div>
+        </form>
+
+        <!-- Loading State -->
+        <div id="loadingState" style="display: none; text-align: center; padding: 3rem;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">⏳</div>
+            <h3 style="font-size: 1.5rem; color: var(--color-primary); margin-bottom: 0.5rem;">Finding Your Perfect Match...</h3>
+            <p style="color: var(--color-text-light);">Analyzing your preferences</p>
+        </div>
+
+    </div>
+</div>
+
+<style>
+.quiz-option input:checked + .option-card {
+    border-color: var(--color-gold);
+    background: linear-gradient(135deg, rgba(212,175,55,0.1), rgba(200,160,70,0.05)) !important;
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(212,175,55,0.2);
+}
+
+.quiz-option:hover .option-card {
+    border-color: var(--color-gold);
+    transform: translateY(-2px);
+}
+
+#nextBtn:hover, #submitBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(212,175,55,0.4);
+}
+
+#prevBtn:hover {
+    background: var(--color-gold);
+    color: white;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const questions = document.querySelectorAll('.quiz-question');
+    const totalQuestions = questions.length;
+    let currentQuestion = 0;
+
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    const form = document.getElementById('quizForm');
+
+    // Update progress
+    function updateProgress() {
+        const progress = ((currentQuestion + 1) / totalQuestions) * 100;
+        progressBar.style.width = progress + '%';
+        progressText.textContent = `Question ${currentQuestion + 1} of ${totalQuestions}`;
+    }
+
+    // Show question
+    function showQuestion(index) {
+        questions.forEach((q, i) => {
+            q.style.display = i === index ? 'block' : 'none';
+        });
+
+        // Update button visibility
+        prevBtn.style.display = index === 0 ? 'none' : 'inline-block';
+        nextBtn.style.display = index === totalQuestions - 1 ? 'none' : 'inline-block';
+        submitBtn.style.display = index === totalQuestions - 1 ? 'inline-block' : 'none';
+
+        updateProgress();
+    }
+
+    // Next button
+    nextBtn.addEventListener('click', function() {
+        const currentQ = questions[currentQuestion];
+        const selected = currentQ.querySelector('input[type="radio"]:checked');
+
+        if (!selected) {
+            alert('Please select an option before continuing');
+            return;
+        }
+
+        if (currentQuestion < totalQuestions - 1) {
+            currentQuestion++;
+            showQuestion(currentQuestion);
+        }
+    });
+
+    // Previous button
+    prevBtn.addEventListener('click', function() {
+        if (currentQuestion > 0) {
+            currentQuestion--;
+            showQuestion(currentQuestion);
+        }
+    });
+
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Collect answers
+        const answers = {};
+        questions.forEach((q, index) => {
+            const radio = q.querySelector('input[type="radio"]:checked');
+            if (radio) {
+                const questionId = radio.name.replace('question_', '');
+                answers[questionId] = radio.value;
+            }
+        });
+
+        // Check all questions answered
+        if (Object.keys(answers).length !== totalQuestions) {
+            alert('Please answer all questions');
+            return;
+        }
+
+        // Show loading
+        form.style.display = 'none';
+        document.getElementById('loadingState').style.display = 'block';
+
+        // Submit to backend
+        fetch('{% url "submit_quiz" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({ answers: answers })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Redirect to results page
+                window.location.href = `/quiz/results/${data.result_id}/`;
+            } else {
+                alert('Error: ' + data.error);
+                form.style.display = 'block';
+                document.getElementById('loadingState').style.display = 'none';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Something went wrong. Please try again.');
+            form.style.display = 'block';
+            document.getElementById('loadingState').style.display = 'none';
+        });
+    });
+
+    // Initialize
+    showQuestion(0);
+});
+</script>
+{% endblock %}

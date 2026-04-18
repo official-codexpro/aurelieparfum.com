@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profile - Aurélie Parfum{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-20 bg-[#fafafa]">
+    <div class="container mx-auto px-6">
+        <div class="max-w-[650px] mx-auto">
+            
+            <div class="mb-12 border-b border-black/[0.05] pb-8">
+                <h1 class="font-serif text-4xl text-[#1a1a1a] tracking-tight italic" style="font-family: serif;">
+                    Edit Profile
+                </h1>
+                <p class="text-[10px] tracking-[0.2em] uppercase text-black/40 mt-3 font-semibold">
+                    Update your account information
+                </p>
+            </div>
+
+            {% if messages %}
+                <div class="mb-10 space-y-3">
+                    {% for message in messages %}
+                    <div class="p-4 text-[11px] tracking-widest uppercase text-center border {% if message.tags == 'success' %}border-[#C5A059]/30 text-[#C5A059] bg-[#C5A059]/5{% else %}border-red-200 text-red-500 bg-red-50{% endif %}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="post" class="bg-white border border-black/[0.03] shadow-[0_30px_70px_rgba(0,0,0,0.02)]">
+                {% csrf_token %}
+                <div class="p-8 md:p-12 space-y-10">
+                    
+                    <div class="relative group">
+                        <label class="block text-[9px] tracking-[0.3em] uppercase text-black/40 font-bold mb-3 transition-colors group-focus-within:text-[#C5A059]">
+                            First Name
+                        </label>
+                        <input type="text" name="first_name" value="{{ user.first_name }}"
+                               class="w-full bg-transparent border-b border-black/10 py-3 text-sm focus:border-[#C5A059] outline-none transition-all duration-500 text-black font-medium"
+                               style="border-radius: 0;">
+                    </div>
+
+                    <div class="relative group">
+                        <label class="block text-[9px] tracking-[0.3em] uppercase text-black/40 font-bold mb-3 transition-colors group-focus-within:text-[#C5A059]">
+                            Last Name
+                        </label>
+                        <input type="text" name="last_name" value="{{ user.last_name }}"
+                               class="w-full bg-transparent border-b border-black/10 py-3 text-sm focus:border-[#C5A059] outline-none transition-all duration-500 text-black font-medium"
+                               style="border-radius: 0;">
+                    </div>
+
+                    <div class="relative group">
+                        <label class="block text-[9px] tracking-[0.3em] uppercase text-black/40 font-bold mb-3 transition-colors group-focus-within:text-[#C5A059]">
+                            Email
+                        </label>
+                        <input type="email" name="email" value="{{ user.email }}"
+                               class="w-full bg-transparent border-b border-black/10 py-3 text-sm focus:border-[#C5A059] outline-none transition-all duration-500 text-black font-medium"
+                               style="border-radius: 0;">
+                    </div>
+
+                    <div class="relative">
+                        <label class="block text-[9px] tracking-[0.3em] uppercase text-black/20 font-bold mb-3">
+                            Username
+                        </label>
+                        <div class="relative">
+                            <input type="text" value="{{ user.username }}" disabled
+                                   class="w-full bg-[#f9f9f9] border border-black/[0.05] p-4 text-[11px] tracking-widest uppercase text-black/30 cursor-not-allowed">
+                            <span class="absolute right-4 top-1/2 -translate-y-1/2 opacity-20">🔒</span>
+                        </div>
+                        <p class="text-[8px] tracking-[0.1em] text-black/30 uppercase mt-2 italic">Username cannot be changed</p>
+                    </div>
+
+                    <div class="pt-6 flex flex-col sm:flex-row gap-4">
+                        <button type="submit" 
+                                class="flex-1 py-5 bg-[#0b0806] text-white text-[10px] tracking-[0.4em] uppercase font-bold hover:bg-[#C5A059] transition-all duration-500 shadow-xl active:scale-[0.98]">
+                            Save Changes
+                        </button>
+                        <a href="{% url 'profile' %}" 
+                           class="flex-1 py-5 border border-black/10 text-center text-[10px] tracking-[0.4em] uppercase font-bold text-black/40 hover:text-black hover:border-black transition-all duration-500">
+                            Cancel
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="h-1 w-full bg-gradient-to-r from-transparent via-[#C5A059]/20 to-transparent"></div>
+            </form>
+
+            <div class="mt-12 text-center">
+                <a href="{% url 'profile' %}" class="text-[9px] tracking-[0.3em] uppercase text-black/30 hover:text-[#C5A059] transition-colors">
+                    ← Return to Profile Overview
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Smooth transition for input focus */
+    input:focus {
+        padding-left: 10px;
+    }
+</style>
+{% endblock %}

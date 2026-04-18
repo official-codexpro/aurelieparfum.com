@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Login - {{ site_name|default:"TradeCMS Store" }}{% endblock %}
+
+{% block content %}
+<div class="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 font-sans bg-white">
+    
+    <div class="max-w-md w-full space-y-8 p-10 border border-black/5 shadow-2xl bg-white rounded-none animate-in fade-in slide-in-from-bottom-5 duration-700">
+        
+        <div class="text-center">
+            <h2 class="text-4xl font-light tracking-[0.1em] uppercase text-black mb-2">
+                Sign In
+            </h2>
+            <p class="text-[11px] tracking-[0.2em] uppercase text-gray-500">
+                Access Your Premium Account
+            </p>
+        </div>
+
+        {% if form.non_field_errors or form.errors %}
+            <div class="bg-red-50 border border-red-100 p-4 mb-6">
+                {% for error in form.non_field_errors %}
+                    <p class="text-red-600 text-[12px] uppercase tracking-wider">{{ error }}</p>
+                {% endfor %}
+                {% if form.errors and not form.non_field_errors %}
+                    <p class="text-red-600 text-[12px] uppercase tracking-wider">Invalid Username or Password</p>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <form class="mt-8 space-y-6" method="POST">
+            {% csrf_token %}
+            
+            <div class="space-y-5">
+                <div>
+                    <label for="{{ form.username.id_for_label }}" 
+                           class="block text-[10px] font-semibold tracking-[0.15em] uppercase text-black mb-2">
+                        Username / Email
+                    </label>
+                    <div class="relative">
+                        <div class="[&_input]:w-full [&_input]:bg-gray-50 [&_input]:border [&_input]:border-gray-200 [&_input]:px-5 [&_input]:py-4 [&_input]:text-[13px] [&_input]:tracking-wider [&_input]:text-black [&_input]:transition-all [&_input]:duration-300 [&_input]:rounded-none [&_input]:outline-none focus-within:[&_input]:bg-white focus-within:[&_input]:border-black focus-within:[&_input]:shadow-sm">
+                            {{ form.username }}
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <label for="{{ form.password.id_for_label }}" 
+                               class="text-[10px] font-semibold tracking-[0.15em] uppercase text-black">
+                            Password
+                        </label>
+                        <a href="#" class="text-[10px] uppercase tracking-widest text-gray-400 no-underline hover:text-black transition-colors">Forgot?</a>
+                    </div>
+                    <div class="relative">
+                        <div class="[&_input]:w-full [&_input]:bg-gray-50 [&_input]:border [&_input]:border-gray-200 [&_input]:px-5 [&_input]:py-4 [&_input]:text-[13px] [&_input]:tracking-wider [&_input]:text-black [&_input]:transition-all [&_input]:duration-300 [&_input]:rounded-none [&_input]:outline-none focus-within:[&_input]:bg-white focus-within:[&_input]:border-black focus-within:[&_input]:shadow-sm">
+                            {{ form.password }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-4">
+                <button type="submit" 
+                        class="group relative w-full flex justify-center py-4 px-4 border border-transparent text-sm font-medium uppercase tracking-[0.3em] text-white bg-black hover:bg-zinc-800 transition-all duration-300 focus:outline-none shadow-[0_10px_20px_-10px_rgba(0,0,0,0.5)] active:scale-[0.98]">
+                    Login
+                </button>
+            </div>
+        </form>
+
+        <div class="text-center mt-10 pt-8 border-t border-black/5">
+            <a href="{% url 'register' %}" 
+               class="text-[11px] font-bold uppercase tracking-[0.2em] text-black no-underline border-b border-black pb-0.5 hover:opacity-70 transition-opacity">
+                Create An Account
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

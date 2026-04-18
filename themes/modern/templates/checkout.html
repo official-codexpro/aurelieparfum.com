@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout - Aurélie Parfum{% endblock %}
+
+{% block content %}
+<div class="py-4">
+    <div class="container">
+        <h1 style="font-size: 2.5rem; font-weight: 700; color: var(--color-primary); margin-bottom: 2rem;">
+            Checkout
+        </h1>
+
+        <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 3rem; align-items: start;">
+            <!-- Checkout Form -->
+            <div>
+                <form method="post" id="checkoutForm">
+                    {% csrf_token %}
+
+                    <!-- Customer Information -->
+                    <div class="card" style="margin-bottom: 2rem;">
+                        <div class="card-body">
+                            <h2 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem;">
+                                Customer Information
+                            </h2>
+
+                            {% if not user.is_authenticated %}
+                            <div style="background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.05) 100%); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 3px solid var(--color-gold);">
+                                <p style="margin-bottom: 0.5rem;">Already have an account? <a href="{% url 'login' %}?next={{ request.path }}" style="color: var(--color-gold); font-weight: 600;">Sign in</a> for faster checkout.</p>
+                                <p style="margin: 0; font-size: 0.9rem; color: var(--color-text-light);">Or continue as guest below.</p>
+                            </div>
+                            {% endif %}
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">First Name *</label>
+                                    <input type="text" name="first_name" required
+                                           value="{% if user.is_authenticated %}{{ user.first_name }}{% endif %}"
+                                           style="width: 100%; padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Last Name *</label>
+                                    <input type="text" name="last_name" required
+                                           value="{% if user.is_authenticated %}{{ user.last_name }}{% endif %}"
+                                           style="width: 100%; padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 1rem;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Email *</label>
+                                <input type="email" name="email" required
+                                       value="{% if user.is_authenticated %}{{ user.email }}{% endif %}"
+                                       style="width: 100%; padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                            </div>
+
+                            <div style="margin-top: 1rem;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Phone *</label>
+                                <input type="tel" name="phone" required placeholder="+91 98765 43210"
+                                       style="width: 100%; padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shipping Address -->
+                    <div class="card" style="margin-bottom: 2rem;">
+                        <div class="card-body">
+                            <h2 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem;">
+                                Shipping Address
+                            </h2>
+
+                            <div style="margin-bottom: 1rem;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Address *</label>
+                                <textarea name="address" required rows="3"
+                                          style="width: 100%; padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; font-family: inherit;"></textarea>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">City *</label>
+                                    <input type="text" name="city" required
+                                           style="width: 100%; padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">State *</label>
+                                    <input type="text" name="state" required
+                                           style="width: 100%; padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 1rem;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Postal Code *</label>
+                                <input type="text" name="postal_code" required placeholder="400001"
+                                       style="width: 100%; padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem;">
+                                Payment Method
+                            </h2>
+
+                            <div style="background: linear-gradient(135deg, rgba(139,0,255,0.1) 0%, rgba(139,0,255,0.05) 100%); padding: 1.5rem; border-radius: 8px; border-left: 3px solid #8b00ff;">
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                                    <img src="https://www.phonepe.com/webstatic/8499/static/d3ba45f18fb7ffa93058e5fd4331f001/fc5c4/PhonePe_Logo.webp" alt="PhonePe" style="height: 24px;">
+                                    <p style="font-weight: 600; color: #8b00ff; margin: 0;">Secure Online Payment</p>
+                                </div>
+                                <p style="font-size: 0.9rem; color: var(--color-text-light); margin: 0;">Pay securely using UPI, Cards, Net Banking & More via PhonePe</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary"
+                            style="width: 100%; margin-top: 2rem; font-size: 1.2rem; padding: 1.2rem;">
+                        Proceed to Payment
+                    </button>
+                </form>
+            </div>
+
+            <!-- Order Summary -->
+            <div>
+                <div class="card" style="position: sticky; top: 100px;">
+                    <div class="card-body">
+                        <h2 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem;">
+                            Order Summary
+                        </h2>
+
+                        {% if cart and cart.items.all %}
+                            <!-- Cart Items -->
+                            <div style="margin-bottom: 1.5rem;">
+                                {% for item in cart.items.all %}
+                                <div style="display: flex; gap: 1rem; margin-bottom: 1rem; {% if not forloop.last %}padding-bottom: 1rem; border-bottom: 1px solid #e5e7eb;{% endif %}">
+                                    <div style="flex-shrink: 0;">
+                                        {% if item.product.image %}
+                                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}"
+                                             style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                                        {% else %}
+                                        <div style="width: 60px; height: 60px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+                                            📦
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <p style="font-weight: 600; margin-bottom: 0.25rem; font-size: 0.95rem;">{{ item.product.name }}</p>
+                                        <p style="font-size: 0.85rem; color: var(--color-text-light); margin: 0;">{% if item.size %}{{ item.size.size_ml }}ml • {% endif %}Qty: {{ item.quantity }}</p>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <p style="font-weight: 700; color: var(--color-primary); margin: 0;">₹{{ item.get_total_price }}</p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Totals -->
+                            <div style="border-top: 2px solid #e5e7eb; padding-top: 1rem;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span>Subtotal ({{ cart.total_items }} items)</span>
+                                    <span>₹{{ cart.total_price }}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span>Shipping</span>
+                                    <span style="color: #10b981; font-weight: 600;">Free</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span>Tax</span>
+                                    <span>₹0.00</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 1.3rem; font-weight: 700; margin-top: 1rem; padding-top: 1rem; border-top: 2px solid #e5e7eb;">
+                                    <span>Total</span>
+                                    <span style="color: var(--color-primary);">₹{{ cart.total_price }}</span>
+                                </div>
+                            </div>
+                        {% else %}
+                            <p class="text-muted">Your cart is empty</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+@media (max-width: 968px) {
+    .container > div {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--color-gold) !important;
+}
+</style>
+
+<script>
+document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Show loading state
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Initiating Payment...';
+
+    // Submit form
+    const formData = new FormData(this);
+
+    fetch('{% url "checkout" %}', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(text => {
+                console.error('Response:', text);
+                throw new Error('Server error: ' + response.status);
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success && data.payment_url) {
+            // Redirect to PhonePe payment page
+            submitBtn.textContent = 'Redirecting to Payment Gateway...';
+            window.location.href = data.payment_url;
+        } else {
+            throw new Error(data.message || 'Payment initiation failed');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('There was an error initiating payment: ' + (error.message || 'Please try again.'));
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Payment Status - Aurélie Parfum{% endblock %}
+
+{% block content %}
+<div class="py-5">
+    <div class="container">
+        <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+            {% if status == "CHECKOUT_ORDER_COMPLETED" or status == "COMPLETED" %}
+                <div style="width: 80px; height: 80px; margin: 0 auto 2rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <h1 style="font-size: 2rem; font-weight: 700; color: #10b981; margin-bottom: 1rem;">
+                    Payment Successful!
+                </h1>
+            {% elif status == "CHECKOUT_ORDER_FAILED" or status == "FAILED" or status == "CHECKOUT_TRANSACTION_ATTEMPT_FAILED" %}
+                <div style="width: 80px; height: 80px; margin: 0 auto 2rem; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                </div>
+                <h1 style="font-size: 2rem; font-weight: 700; color: #ef4444; margin-bottom: 1rem;">
+                    Payment Failed
+                </h1>
+            {% else %}
+                <div style="width: 80px; height: 80px; margin: 0 auto 2rem; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                </div>
+                <h1 style="font-size: 2rem; font-weight: 700; color: #f59e0b; margin-bottom: 1rem;">
+                    Payment Pending
+                </h1>
+            {% endif %}
+
+            <div style="background: #f8fafc; padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
+                <p style="font-size: 1.1rem; margin-bottom: 1rem;">{{ message }}</p>
+
+                {% if order %}
+                <div style="border-top: 1px solid #e2e8f0; padding-top: 1.5rem; margin-top: 1.5rem; text-align: left;">
+                    <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem;">Order Details</h3>
+                    <div style="display: grid; gap: 0.5rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--color-text-light);">Order ID:</span>
+                            <span style="font-weight: 600;">#{{ order.id }}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--color-text-light);">Total Amount:</span>
+                            <span style="font-weight: 700; color: var(--color-primary);">₹{{ order.total_amount }}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--color-text-light);">Status:</span>
+                            <span style="font-weight: 600; text-transform: capitalize;">{{ order.status }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="{% url 'home' %}" class="btn btn-outline-primary" style="text-decoration: none;">
+                    Continue Shopping
+                </a>
+                {% if status == "CHECKOUT_ORDER_COMPLETED" or status == "COMPLETED" %}
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'profile' %}" class="btn btn-primary" style="text-decoration: none;">
+                            View Orders
+                        </a>
+                    {% endif %}
+                {% elif status == "CHECKOUT_ORDER_FAILED" or status == "FAILED" or status == "CHECKOUT_TRANSACTION_ATTEMPT_FAILED" %}
+                    <a href="{% url 'checkout' %}" class="btn btn-primary" style="text-decoration: none;">
+                        Try Again
+                    </a>
+                {% endif %}
+            </div>
+
+            {% if status == "CHECKOUT_ORDER_COMPLETED" or status == "COMPLETED" %}
+            <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.05) 100%); border-radius: 8px; border-left: 3px solid var(--color-gold);">
+                <p style="font-size: 0.95rem; color: var(--color-text-light); margin: 0;">
+                    You will receive an order confirmation email at <strong>{{ order.email }}</strong>
+                </p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+.btn-outline-primary {
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    background: white;
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background: var(--color-primary);
+    color: white;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Order History — Aurélie Parfum{% endblock %}
+
+{% block content %}
+<div class="py-20 md:py-28" style="background-color: #fafafa; min-height: 100vh;">
+    <div class="max-w-[1200px] mx-auto px-6">
+        
+        <div class="mb-16 border-b border-black/[0.05] pb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+                <span class="text-[10px] tracking-[0.4em] uppercase text-gold font-bold mb-3 block">Archives</span>
+                <h1 class="font-serif text-4xl md:text-5xl text-blackMain tracking-tight">Your Order History</h1>
+                <p class="text-black/40 text-[11px] tracking-[0.1em] uppercase mt-4 italic">A curated record of your fragrance journey</p>
+            </div>
+            <a href="{% url 'product_list' %}" class="text-[10px] tracking-[0.2em] uppercase border-b border-black/10 pb-1 hover:text-gold hover:border-gold transition-all italic">
+                Continue Exploring →
+            </a>
+        </div>
+
+        {% if orders %}
+            <div class="space-y-16">
+                {% for order in orders %}
+                <div class="relative group">
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="font-serif italic text-2xl text-blackMain">#{{ order.id }}</span>
+                        <div class="h-[1px] flex-1 bg-black/[0.05]"></div>
+                        <span class="text-[10px] tracking-[0.3em] uppercase text-black/30 font-bold">
+                            {{ order.created_at|date:"d.m.Y" }}
+                        </span>
+                    </div>
+
+                    <div class="bg-white border border-black/[0.03] shadow-[0_20px_60px_rgba(0,0,0,0.015)] overflow-hidden">
+                        <div class="p-8 md:p-12">
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                                
+                                <div class="space-y-8">
+                                    <h4 class="text-[9px] tracking-[0.4em] uppercase text-gold font-bold mb-6">Selected Essences</h4>
+                                    {% for item in order.items.all %}
+                                    <div class="flex items-center gap-6 group/item">
+                                        <div class="w-20 h-24 bg-[#fbfbfb] border border-black/[0.02] flex-shrink-0 overflow-hidden relative">
+                                            {% if item.product.image %}
+                                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="w-full h-full object-cover mix-blend-multiply opacity-90 group-hover/item:scale-110 transition-transform duration-[2s]">
+                                            {% else %}
+                                                <div class="w-full h-full flex items-center justify-center opacity-20">📦</div>
+                                            {% endif %}
+                                        </div>
+                                        <div>
+                                            <h5 class="font-serif text-lg text-blackMain italic leading-tight">{{ item.product.name }}</h5>
+                                            <p class="text-[10px] tracking-[0.1em] text-black/40 uppercase mt-2">
+                                                Qty: {{ item.quantity }} &nbsp;•&nbsp; ₹{{ item.price }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="bg-[#fafafa] p-8 md:p-10 border-l border-black/[0.02]">
+                                    <div class="space-y-8">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <p class="text-[9px] tracking-[0.2em] uppercase text-black/40 mb-2">Current Status</p>
+                                                <span class="px-3 py-1 text-[9px] tracking-[0.2em] uppercase font-bold border border-gold/30 text-gold bg-white">
+                                                    {{ order.get_status_display }}
+                                                </span>
+                                            </div>
+                                            <div class="text-right">
+                                                <p class="text-[9px] tracking-[0.2em] uppercase text-black/40 mb-2">Investment</p>
+                                                <p class="font-serif text-2xl text-blackMain">₹{{ order.total_amount }}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="pt-8 border-t border-black/[0.05]">
+                                            <p class="text-[9px] tracking-[0.2em] uppercase text-black/40 mb-4 font-bold">Shipping Sanctuary</p>
+                                            <div class="text-[11px] leading-relaxed text-black/60 uppercase tracking-widest space-y-1">
+                                                <p class="text-black font-bold">{{ order.full_name }}</p>
+                                                <p>{{ order.address }}</p>
+                                                <p>{{ order.city }}, {{ order.postal_code }}</p>
+                                                <p class="pt-2 text-[9px] italic font-serif normal-case">Contact: {{ order.phone }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="h-1 w-full bg-gradient-to-r from-transparent via-gold/20 to-transparent"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="py-32 text-center bg-white border border-black/[0.03] shadow-sm">
+                <div class="mb-10 opacity-20 font-serif text-6xl italic">A</div>
+                <h2 class="font-serif text-3xl text-blackMain mb-4">No History Found</h2>
+                <p class="text-black/40 text-[11px] tracking-[0.3em] uppercase mb-10 max-w-sm mx-auto leading-loose">
+                    Your personal fragrance library is waiting for its first entry.
+                </p>
+                <a href="{% url 'product_list' %}" class="inline-block px-12 py-5 bg-[#0b0806] text-white text-[10px] tracking-[0.4em] uppercase font-bold hover:bg-gold transition-all duration-500">
+                    Discover Collection
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

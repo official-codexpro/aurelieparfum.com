@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+
+{% block title %}Shopping Cart - Aurélie Parfum{% endblock %}
+
+{% block content %}
+<div class="py-4">
+    <div class="container">
+        <!-- Header -->
+        <div style="margin-bottom: 2rem;">
+            <h1 style="font-size: 2.5rem; font-weight: 700; color: var(--color-primary);">
+                Shopping Cart
+            </h1>
+            <p class="text-muted">
+                Review your items before checkout
+            </p>
+        </div>
+
+        {% if cart and cart.items.all %}
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; align-items: start;">
+                <!-- Cart Items -->
+                <div>
+                    <div style="background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden;">
+                        {% for item in cart.items.all %}
+                            <div id="cart-item-{{ item.id }}" style="display: flex; align-items: center; gap: 1rem; padding: 1.5rem; {% if not forloop.last %}border-bottom: 1px solid #e5e7eb;{% endif %}">
+                                <!-- Product Image -->
+                                <div style="flex-shrink: 0;">
+                                    {% if item.product.image %}
+                                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}"
+                                             style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+                                    {% else %}
+                                        <div style="width: 80px; height: 80px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; border-radius: 8px; color: var(--color-secondary);">
+                                            📦
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Product Info -->
+                                <div style="flex: 1;">
+                                    <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.25rem;">
+                                        <a href="{{ item.product.get_absolute_url }}"
+                                           style="text-decoration: none; color: var(--color-text);">
+                                            {{ item.product.name }}
+                                        </a>
+                                    </h3>
+                                    <p style="font-size: 0.875rem; color: var(--color-secondary); margin-bottom: 0.5rem;">
+                                        {{ item.product.category.name }}{% if item.size %} • {{ item.size.size_ml }}ml{% endif %}
+                                    </p>
+                                    <p style="font-size: 1rem; font-weight: 600; color: var(--color-primary);">
+                                        ₹{% if item.size %}{{ item.size.price }}{% else %}{{ item.product.price }}{% endif %}
+                                    </p>
+                                </div>
+
+                                <!-- Quantity Controls -->
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <button class="btn-ghost" onclick="changeQuantity({{ item.id }}, -1)"
+                                            style="width: 32px; height: 32px; padding: 0; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                                        −
+                                    </button>
+                                    <span id="quantity-{{ item.id }}" style="min-width: 40px; text-align: center; font-weight: 600;">
+                                        {{ item.quantity }}
+                                    </span>
+                                    <button class="btn-ghost" onclick="changeQuantity({{ item.id }}, 1)"
+                                            style="width: 32px; height: 32px; padding: 0; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                                        +
+                                    </button>
+                                </div>
+
+                                <!-- Item Total -->
+                                <div style="text-align: right; min-width: 100px;">
+                                    <p id="item-total-{{ item.id }}" style="font-size: 1.125rem; font-weight: 700; color: var(--color-primary);">
+                                        ₹{{ item.get_total_price }}
+                                    </p>
+                                    <button class="btn-ghost" onclick="removeItem({{ item.id }})"
+                                            style="font-size: 0.875rem; color: #ef4444; padding: 0.25rem 0.5rem;">
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem;">
+                                Order Summary
+                            </h2>
+
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Items (<span id="total-items">{{ cart.total_items }}</span>)</span>
+                                <span id="subtotal">₹{{ cart.total_price }}</span>
+                            </div>
+
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Shipping</span>
+                                <span>Free</span>
+                            </div>
+
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Tax</span>
+                                <span>₹0.00</span>
+                            </div>
+
+                            <hr style="margin: 1rem 0; border: none; border-top: 1px solid #e5e7eb;">
+
+                            <div style="display: flex; justify-content: space-between; font-size: 1.125rem; font-weight: 700; margin-bottom: 1.5rem;">
+                                <span>Total</span>
+                                <span id="cart-total" style="color: var(--color-primary);">₹{{ cart.total_price }}</span>
+                            </div>
+
+                            <a href="{% url 'checkout' %}" class="btn btn-primary" style="width: 100%; text-align: center; font-size: 1.125rem; padding: 1rem;">
+                                Proceed to Checkout
+                            </a>
+
+                            <a href="{% url 'product_list' %}" class="btn btn-ghost" style="width: 100%; text-align: center; margin-top: 0.5rem;">
+                                Continue Shopping
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <!-- Empty Cart -->
+            <div class="text-center py-8">
+                <div style="font-size: 5rem; margin-bottom: 1rem; opacity: 0.3;">
+                    🛒
+                </div>
+                <h2 style="font-size: 2rem; margin-bottom: 1rem; color: var(--color-secondary);">
+                    Your cart is empty
+                </h2>
+                <p class="text-muted" style="font-size: 1.125rem; margin-bottom: 2rem;">
+                    Looks like you haven't added any items to your cart yet.
+                </p>
+                <a href="{% url 'product_list' %}" class="btn btn-primary" style="font-size: 1.125rem; padding: 1rem 2rem;">
+                    Start Shopping
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+@media (max-width: 768px) {
+    .container > div:first-of-type {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
+
+    .container div[style*="display: flex"] {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 1rem !important;
+    }
+}
+</style>
+
+<script>
+// Get CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
+// Show notification
+function showNotification(message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: ${type === 'success' ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #ef4444, #dc2626)'};
+        color: white;
+        padding: 1.2rem 2rem;
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        z-index: 10000;
+        font-weight: 600;
+        animation: slideIn 0.3s ease-out;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease-out';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+// Update cart totals in UI
+function updateCartTotals(totalItems, totalPrice) {
+    document.getElementById('total-items').textContent = totalItems;
+    document.getElementById('subtotal').textContent = '₹' + totalPrice;
+    document.getElementById('cart-total').textContent = '₹' + totalPrice;
+}
+
+// Change quantity by delta (called by +/- buttons)
+function changeQuantity(itemId, delta) {
+    const quantityElement = document.getElementById('quantity-' + itemId);
+    const currentQuantity = parseInt(quantityElement.textContent);
+    const newQuantity = currentQuantity + delta;
+    updateQuantity(itemId, newQuantity);
+}
+
+// Update quantity
+function updateQuantity(itemId, newQuantity) {
+    if (newQuantity < 1) {
+        removeItem(itemId);
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('item_id', itemId);
+    formData.append('quantity', newQuantity);
+
+    fetch('{% url "update_cart_item" %}', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrftoken,
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Update quantity display
+            document.getElementById('quantity-' + itemId).textContent = newQuantity;
+
+            // Update cart totals
+            updateCartTotals(data.cart_total_items, data.cart_total_price);
+
+            // Update item total (price * quantity)
+            const itemElement = document.getElementById('cart-item-' + itemId);
+            const priceText = itemElement.querySelector('p[style*="font-weight: 600"]').textContent;
+            const price = parseFloat(priceText.replace('₹', ''));
+            const itemTotal = price * newQuantity;
+            document.getElementById('item-total-' + itemId).textContent = '₹' + itemTotal.toFixed(2);
+
+            showNotification('Cart updated successfully', 'success');
+        } else {
+            showNotification(data.message || 'Failed to update cart', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Error updating cart', 'error');
+    });
+}
+
+// Remove item
+function removeItem(itemId) {
+    if (!confirm('Are you sure you want to remove this item from your cart?')) {
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('item_id', itemId);
+
+    fetch('{% url "remove_from_cart" %}', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrftoken,
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Remove item from DOM
+            const itemElement = document.getElementById('cart-item-' + itemId);
+            itemElement.style.animation = 'slideOut 0.3s ease-out';
+            setTimeout(() => {
+                itemElement.remove();
+
+                // Update cart totals
+                updateCartTotals(data.cart_total_items, data.cart_total_price);
+
+                // Clear cart count and reload if cart is empty
+                if (data.cart_total_items === 0) {
+                    sessionStorage.removeItem('cart_count');
+                    location.reload();
+                } else {
+                    // Update session storage with new count
+                    sessionStorage.setItem('cart_count', data.cart_total_items);
+                }
+            }, 300);
+
+            showNotification(data.message, 'success');
+        } else {
+            showNotification(data.message || 'Failed to remove item', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Error removing item', 'error');
+    });
+}
+
+// Add animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from { transform: translateX(400px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(400px); opacity: 0; }
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}

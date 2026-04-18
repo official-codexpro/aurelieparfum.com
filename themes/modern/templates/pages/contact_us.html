@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - Aurélie Parfum{% endblock %}
+
+{% block content %}
+<style>
+    .cta {
+        display: none; /* This hides the element and removes the space it occupies */
+    }
+</style>
+<!-- Hero Section -->
+<section style="position: relative; background: #000; padding: 120px 0; overflow: hidden; display: flex; justify-content: center; align-items: center; min-height: 400px;">
+  
+   <!-- BG TEXT -->
+  <div class="absolute inset-0 flex flex-wrap items-center justify-center z-[1] pointer-events-none opacity-[0.03] overflow-hidden -rotate-12 scale-[1.4]">
+    {% for i in "12345678" %}
+      <span class="text-[6vw] max-md:text-[12vw] font-black text-white uppercase px-[30px] max-md:px-[15px] whitespace-nowrap tracking-tight">
+        AURÉLIE PARFUM
+      </span>
+    {% endfor %}
+  </div>
+
+  <!-- SOFT GLOW -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
+  w-[45%] h-[45%] max-md:w-[70%] max-md:h-[70%]
+  bg-[radial-gradient(circle,rgba(255,255,255,0.06)_0%,transparent_70%)] 
+  blur-[70px] z-[2]"></div>
+
+  <div style="position: relative; z-index: 10; max-width: 1200px; width: 100%; text-align: center; padding: 0 24px;">
+    
+    <h1 style="font-size: clamp(2.8rem, 6vw, 4.2rem); font-weight: 900; color: #ffffff; text-transform: uppercase; line-height: 0.9; letter-spacing: -0.03em; margin-bottom: 20px;">
+      Get in Touch
+    </h1>
+
+    <p style="color: rgba(255, 255, 255, 0.6); font-size: 1rem; max-width: 550px; margin: 0 auto 45px auto; line-height: 1.5; letter-spacing: 0.02em;">
+      We'd love to hear from you. Have questions about our fragrances? Need assistance with your order? We're here to help.
+    </p>
+
+    <div style="display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap;">
+
+      <div style="text-align: center;">
+        <span style="display: block; color: #ffffff; font-size: 1.4rem; font-weight: 600; letter-spacing: 0.05em;">
+          24/7
+        </span>
+        <span style="display: block; color: rgba(255, 255, 255, 0.4); font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase; margin-top: 6px;">
+          Support
+        </span>
+      </div>
+
+      <div style="width: 1px; height: 35px; background: rgba(255, 255, 255, 0.1);" class="max-md:hidden"></div>
+
+      <div style="text-align: center;">
+        <span style="display: block; color: #ffffff; font-size: 1.4rem; font-weight: 600; letter-spacing: 0.05em;">
+          &lt; 2HR
+        </span>
+        <span style="display: block; color: rgba(255, 255, 255, 0.4); font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase; margin-top: 6px;">
+          Response
+        </span>
+      </div>
+
+      <div style="width: 1px; height: 35px; background: rgba(255, 255, 255, 0.1);" class="max-md:hidden"></div>
+
+      <div style="text-align: center;">
+        <span style="display: block; color: #ffffff; font-size: 1.4rem; font-weight: 600; letter-spacing: 0.05em;">
+          Global
+        </span>
+        <span style="display: block; color: rgba(255, 255, 255, 0.4); font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase; margin-top: 6px;">
+          Shipping
+        </span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Main Contact Section -->
+<section style="background-color: #ffffff; padding-top: 80px; padding-bottom: 80px; font-family: sans-serif;">
+  <div style="max-width: 1300px; margin-left: auto; margin-right: auto; padding-left: 16px; padding-right: 16px;">
+
+    <div style="display: grid; gap: 64px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+
+      <div>
+        <h2 style="font-size: 32px; font-weight: 600; letter-spacing: 0.08em; color: #111111; margin-bottom: 16px;">
+          Send Us a Message
+        </h2>
+
+        <p style="color: #555555; font-size: 14px; margin-bottom: 40px; max-width: 448px; line-height: 1.6;">
+          Fill out the form below and we'll get back to you within 24 hours. We are here to assist you with any inquiries.
+        </p>
+
+        <form method="post" action="" style="display: flex; flex-direction: column; gap: 24px;">
+          <input type="hidden" name="csrfmiddlewaretoken" value="...">
+
+          <div>
+            <label style="display: block; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: #888888; margin-bottom: 8px;">
+              Your Name *
+            </label>
+            <input type="text" name="name" required placeholder="John Doe"
+              style="width: 100%; background-color: transparent; border: 1px solid #dddddd; padding: 12px 16px; font-size: 14px; color: #111111; outline: none; transition: border-color 0.3s ease-in-out;"
+              onfocus="this.style.borderColor='#d4af37'" onblur="this.style.borderColor='#dddddd'">
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: #888888; margin-bottom: 8px;">
+              Your Email *
+            </label>
+            <input type="email" name="email" required placeholder="john@example.com"
+              style="width: 100%; background-color: transparent; border: 1px solid #dddddd; padding: 12px 16px; font-size: 14px; color: #111111; outline: none; transition: border-color 0.3s ease-in-out;"
+              onfocus="this.style.borderColor='#d4af37'" onblur="this.style.borderColor='#dddddd'">
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: #888888; margin-bottom: 8px;">
+              Subject *
+            </label>
+            <input type="text" name="subject" required placeholder="How can we help you?"
+              style="width: 100%; background-color: transparent; border: 1px solid #dddddd; padding: 12px 16px; font-size: 14px; color: #111111; outline: none; transition: border-color 0.3s ease-in-out;"
+              onfocus="this.style.borderColor='#d4af37'" onblur="this.style.borderColor='#dddddd'">
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: #888888; margin-bottom: 8px;">
+              Message *
+            </label>
+            <textarea name="message" required rows="5" placeholder="Tell us more about your inquiry..."
+              style="width: 100%; background-color: transparent; border: 1px solid #dddddd; padding: 12px 16px; font-size: 14px; color: #111111; outline: none; resize: none; transition: border-color 0.3s ease-in-out;"
+              onfocus="this.style.borderColor='#d4af37'" onblur="this.style.borderColor='#dddddd'"></textarea>
+          </div>
+
+          <button type="submit"
+            style="width: 100%; margin-top: 16px; border: 1px solid #111111; background-color: #111111; color: #ffffff; padding: 12px 0; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease;"
+            onmouseover="this.style.backgroundColor='#d4af37'; this.style.borderColor='#d4af37';"
+            onmouseout="this.style.backgroundColor='#111111'; this.style.borderColor='#111111';">
+            Send Message
+          </button>
+
+        </form>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 40px;">
+
+        <div style="border: 1px solid #eeeeee; padding: 32px; background-color: #f9f9f9;">
+          <div style="font-size: 24px; margin-bottom: 16px; color: #d4af37;">✉</div>
+
+          <h3 style="font-size: 14px; letter-spacing: 0.25em; text-transform: uppercase; color: #111111; margin-bottom: 16px;">
+            Email Us
+          </h3>
+
+          <p style="color: #555555; font-size: 14px; margin-bottom: 24px; line-height: 1.5;">
+            For all inquiries, support, or product-related questions, reach out to our team anytime.
+          </p>
+
+          <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+            <a href="mailto:support@aurelieparfum.com" style="color: #111111; text-decoration: none; font-weight: 500; transition: color 0.3s;" onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='#111111'">
+              support@aurelieparfum.com
+            </a>
+          </div>
+
+          <div style="margin-top: 24px; font-size: 11px; letter-spacing: 0.2em; color: #999999; text-transform: uppercase;">
+            ⚡ Response within 24 hours
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+
+          <div style="display: flex; gap: 16px; align-items: start;">
+            <div style="color: #d4af37; font-size: 20px;">💬</div>
+            <div>
+              <h4 style="font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: #111111; margin-bottom: 4px; font-weight: 600;">
+                Customer Support
+              </h4>
+              <p style="font-size: 14px; color: #666666; line-height: 1.4;">
+                Assistance with products, orders, and general inquiries.
+              </p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 16px; align-items: start;">
+            <div style="color: #d4af37; font-size: 20px;">📦</div>
+            <div>
+              <h4 style="font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: #111111; margin-bottom: 4px; font-weight: 600;">
+                Order Assistance
+              </h4>
+              <p style="font-size: 14px; color: #666666; line-height: 1.4;">
+                Help with tracking, delivery, and order updates.
+              </p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 16px; align-items: start;">
+            <div style="color: #d4af37; font-size: 20px;">🎁</div>
+            <div>
+              <h4 style="font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: #111111; margin-bottom: 4px; font-weight: 600;">
+                Product Guidance
+              </h4>
+              <p style="font-size: 14px; color: #666666; line-height: 1.4;">
+                Find the perfect fragrance tailored to your personality.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 80px; text-align: center; border-top: 1px solid #eeeeee; padding-top: 48px;">
+      <h3 style="font-size: 18px; letter-spacing: 0.2em; text-transform: uppercase; color: #111111; margin-bottom: 16px;">
+        Looking for Quick Answers?
+      </h3>
+
+      <p style="color: #666666; font-size: 14px; margin-bottom: 24px;">
+        Visit our FAQ section for instant help and common queries.
+      </p>
+
+      <a href="/faq/"
+        style="display: inline-block; border: 1px solid #111111; color: #111111; padding: 12px 40px; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; text-decoration: none; transition: all 0.3s;"
+        onmouseover="this.style.backgroundColor='#111111'; this.style.color='#ffffff';"
+        onmouseout="this.style.backgroundColor='transparent'; this.style.color='#111111';">
+        Visit FAQ Center
+      </a>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

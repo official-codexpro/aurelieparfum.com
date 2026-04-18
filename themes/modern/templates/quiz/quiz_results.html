@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Your Perfect Fragrance Matches - Aurélie Parfum{% endblock %}
+
+{% block content %}
+<div style="min-height: 100vh; background: linear-gradient(135deg, #f5f1e8 0%, #e8e2d5 100%); padding: 3rem 1rem;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto;">
+
+        <!-- Success Header -->
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <div style="font-size: 5rem; margin-bottom: 1rem; animation: bounceIn 0.8s;">🎉</div>
+            <h1 style="font-size: 2.5rem; color: var(--color-primary); margin-bottom: 1rem; font-weight: 700;">
+                Your Perfect Matches Are Here!
+            </h1>
+            <p style="font-size: 1.2rem; color: var(--color-text-light);">
+                Based on your preferences, you're a <strong style="color: var(--color-gold);">{{ profile }}</strong> fragrance lover
+            </p>
+        </div>
+
+        <!-- Fragrance Profile -->
+        <div style="background: white; padding: 2.5rem; border-radius: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); margin-bottom: 3rem;">
+            <h2 style="font-size: 1.8rem; color: var(--color-primary); margin-bottom: 2rem; text-align: center;">
+                📊 Your Fragrance Profile
+            </h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                {% for key, value in percentages.items %}
+                <div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span style="font-weight: 600; color: var(--color-primary); text-transform: capitalize;">
+                            {% if key == 'woody' %}🌲 Woody
+                            {% elif key == 'floral' %}🌸 Floral
+                            {% elif key == 'fresh' %}🍋 Fresh
+                            {% elif key == 'spicy' %}🌶️ Spicy
+                            {% elif key == 'sweet' %}🍰 Sweet
+                            {% endif %}
+                        </span>
+                        <span style="font-weight: 700; color: var(--color-gold);">{{ value }}%</span>
+                    </div>
+                    <div style="height: 10px; background: rgba(212, 175, 55, 0.2); border-radius: 10px; overflow: hidden;">
+                        <div style="height: 100%; background: linear-gradient(90deg, var(--color-gold), var(--color-rose-gold)); width: {{ value }}%; transition: width 1s ease;"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Recommended Products -->
+        <div style="margin-bottom: 3rem;">
+            <h2 style="font-size: 2rem; color: var(--color-primary); margin-bottom: 2rem; text-align: center;">
+                ✨ Your Top 3 Recommended Fragrances
+            </h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                {% for product in products %}
+                <div style="background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.08); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='translateY(0)'">
+
+                    <!-- Match Badge -->
+                    <div style="position: relative;">
+                        <div style="position: absolute; top: 1rem; right: 1rem; background: linear-gradient(135deg, #4CAF50, #45a049); color: white; padding: 0.5rem 1rem; border-radius: 50px; font-weight: 700; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(76,175,80,0.3); z-index: 10;">
+                            {{ forloop.counter|add:"85" }}% Match
+                        </div>
+
+                        <!-- Product Image -->
+                        <div style="height: 300px; background: linear-gradient(135deg, #f5f1e8, #e8e2d5); position: relative;">
+                            {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            {% else %}
+                            <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 4rem;">🧴</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Product Info -->
+                    <div style="padding: 2rem;">
+                        <h3 style="font-size: 1.5rem; color: var(--color-primary); margin-bottom: 0.5rem; font-weight: 700;">
+                            {{ product.name }}
+                        </h3>
+
+                        {% if product.short_description %}
+                        <p style="color: var(--color-text-light); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6;">
+                            {{ product.short_description }}
+                        </p>
+                        {% endif %}
+
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                            <span style="font-size: 1.8rem; font-weight: 700; color: var(--color-gold);">
+                                ₹{{ product.price }}
+                            </span>
+                            {% if product.is_fabric_only %}
+                            <span style="font-size: 0.75rem; color: #1e40af; background: rgba(59,130,246,0.1); padding: 0.3rem 0.7rem; border-radius: 5px;">
+                                Fabric Use
+                            </span>
+                            {% endif %}
+                        </div>
+
+                        <a href="/products/{{ product.slug }}/" style="display: block; width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--color-gold), #f4d03f); color: var(--color-primary); text-align: center; border-radius: 50px; font-weight: 700; text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                            View Details →
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div style="background: linear-gradient(135deg, var(--color-primary), #1a1a1a); padding: 3rem; border-radius: 25px; text-align: center; color: white; box-shadow: 0 10px 40px rgba(0,0,0,0.15);">
+            <h3 style="font-size: 2rem; margin-bottom: 1rem; font-weight: 700;">Love Your Recommendations?</h3>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.9;">
+                Share them with friends or explore our complete collection
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="/products/" style="padding: 1rem 2.5rem; background: linear-gradient(135deg, var(--color-gold), #f4d03f); color: var(--color-primary); border-radius: 50px; font-weight: 700; text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                    🛍️ Browse All Fragrances
+                </a>
+                <button onclick="shareResults()" style="padding: 1rem 2.5rem; background: white; color: var(--color-primary); border: none; border-radius: 50px; font-weight: 700; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                    🔗 Share Results
+                </button>
+                <a href="{% url 'fragrance_quiz' %}" style="padding: 1rem 2.5rem; background: transparent; color: white; border: 2px solid white; border-radius: 50px; font-weight: 700; text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.background='white'; this.style.color='var(--color-primary)'" onmouseout="this.style.background='transparent'; this.style.color='white'">
+                    🔄 Retake Quiz
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+</style>
+
+<script>
+function shareResults() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'My Fragrance Profile - Aurélie Parfum',
+            text: 'I just discovered my perfect fragrance matches! I\'m a {{ profile }} fragrance lover. Find yours!',
+            url: window.location.href
+        }).catch(err => console.log('Error sharing:', err));
+    } else {
+        // Fallback: Copy URL
+        navigator.clipboard.writeText(window.location.href).then(() => {
+            alert('Results link copied to clipboard!');
+        });
+    }
+}
+
+// Animate progress bars on load
+window.addEventListener('load', function() {
+    const bars = document.querySelectorAll('[style*="width:"]');
+    bars.forEach(bar => {
+        const width = bar.style.width;
+        bar.style.width = '0%';
+        setTimeout(() => {
+            bar.style.width = width;
+        }, 300);
+    });
+});
+</script>
+{% endblock %}

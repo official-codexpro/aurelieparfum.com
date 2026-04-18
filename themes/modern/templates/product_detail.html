@@ -1,0 +1,1026 @@
+{% extends "base.html" %}
+{% load seo_tags %}
+{% load review_filters %}
+
+{% block title %}{{ product.name }} - Aurélie Parfum{% endblock %}
+
+{% block meta_title %}{% render_meta_title product %}{% endblock %}
+{% block meta_description %}{% render_meta_description product %}{% endblock %}
+{% block canonical_url %}{% render_canonical_url product %}{% endblock %}
+
+{% block og_tags %}{% render_og_tags product %}{% endblock %}
+{% block twitter_card %}{% render_twitter_card product %}{% endblock %}
+
+{% block schema_org %}
+{% render_product_schema product %}
+{% endblock %}
+
+{% block theme_styles %}
+{% endblock %}
+
+{% block content %}
+<div class="py-10 md:py-14">
+    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Breadcrumb -->
+        <nav class="mb-8">
+  <div class="flex items-center gap-2 text-[12px] tracking-[0.15em] uppercase">
+
+    <a href="{% url 'home' %}"
+       class="text-black/50 hover:text-black transition duration-300">
+      Home
+    </a>
+
+    <span class="text-black/30">›</span>
+
+    <a href="{% url 'product_list' %}"
+       class="text-black/50 hover:text-black transition duration-300">
+      Products
+    </a>
+
+    <span class="text-black/30">›</span>
+
+    <a href="{{ product.category.get_absolute_url }}"
+       class="text-black/50 hover:text-black transition duration-300">
+      {{ product.category.name }}
+    </a>
+
+    <span class="text-black/30">›</span>
+
+    <span class="text-[#d4af37] font-medium tracking-[0.12em]">
+      {{ product.name }}
+    </span>
+
+  </div>
+</nav>
+
+        <!-- Product Details Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start mb-10">
+
+    <!-- Left: Gallery -->
+<div class="lg:sticky lg:top-24" style="padding-bottom: 20px;">
+
+        <div class="flex flex-col lg:flex-row gap-6">
+
+            <div class="flex lg:flex-col gap-3 order-2 lg:order-1 overflow-x-auto lg:overflow-y-auto no-scrollbar lg:max-h-[600px] py-1" style="scrollbar-width: none; -ms-overflow-style: none;">
+
+                {% if product.image %}
+                <div onclick="changeImage('{{ product.image.url }}', this)"
+                     class="group cursor-pointer overflow-hidden border border-black/10 hover:border-black transition-all duration-300 shrink-0"
+                     style="background: #fff; width: 80px; height: 80px; border-radius: 0px;">
+
+                    <img src="{{ product.image.url }}"
+                         class="w-full h-full object-cover transition duration-500 group-hover:opacity-80">
+                </div>
+                {% endif %}
+
+                {% for img in product.images.all %}
+                <div onclick="changeImage('{{ img.image.url }}', this)"
+                     class="group cursor-pointer overflow-hidden border border-black/10 hover:border-black transition-all duration-300 shrink-0"
+                     style="background: #fff; width: 80px; height: 80px; border-radius: 0px;">
+
+                    <img src="{{ img.image.url }}"
+                         class="w-full h-full object-cover transition duration-500 group-hover:opacity-80">
+                </div>
+                {% endfor %}
+
+            </div>
+
+            <div class="relative flex-1 aspect-[4/5] lg:aspect-square bg-[#fbfbfb] overflow-hidden order-1 lg:order-2 group" 
+                 style="border: 1px solid rgba(0,0,0,0.08); border-radius: 0px;">
+
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}"
+                         class="w-full h-full object-cover transition duration-[1.2s] ease-out group-hover:scale-105"
+                         id="mainImage"
+                         style="will-change: transform; border-radius: 0px;">
+                {% elif product.images.all %}
+                    {% with primary_image=product.images.all|first %}
+                        <img src="{{ primary_image.image.url }}"
+                             class="w-full h-full object-cover transition duration-[1.2s] ease-out group-hover:scale-105"
+                             id="mainImage"
+                             style="will-change: transform; border-radius: 0px;">
+                    {% endwith %}
+                {% else %}
+                    <div class="w-full h-full flex items-center justify-center text-black/10 text-6xl">
+                        ✦
+                    </div>
+                {% endif %}
+
+                <div class="absolute inset-0 pointer-events-none border border-black/5"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Right: Product Info -->
+<div class="pl-0 lg:pl-6 border border-black/10 p-6 lg:p-8">
+    <!-- CATEGORY -->
+    <div class="mb-4">
+        <span class="inline-block border border-[#d4af37] text-[#d4af37] px-4 py-1 text-[10px] tracking-[0.3em] uppercase">
+            {{ product.category.name }}
+        </span>
+    </div>
+
+    <!-- PRODUCT NAME -->
+    <h1 class="text-3xl md:text-4xl font-semibold text-black leading-tight mb-4 tracking-wide">
+        {{ product.name }}
+    </h1>
+
+    <!-- SHORT DESCRIPTION -->
+    {% if product.short_description %}
+    <p class="text-black/60 text-sm md:text-base leading-relaxed mb-8 max-w-[520px]">
+        {{ product.short_description }}
+    </p>
+    {% endif %}
+    
+    <!-- INSPIRED BY -->
+    {% if product.inspired_by_full %}
+    <div class="mb-8 border-l-2 border-[#d4af37] pl-5 py-3 bg-black/[0.02]">
+        <div class="text-[10px] tracking-[0.3em] uppercase text-black/50 mb-1">
+            Inspired By
+        </div>
+        <div class="text-lg font-medium text-black">
+            {{ product.inspired_by_full }}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- SIZE SELECTOR -->
+    {% if product.sizes.exists %}
+    <div class="mb-8">
+
+        <label class="block text-[12px] tracking-[0.25em] uppercase text-black mb-4">
+            Select Size
+        </label>
+
+        <div class="grid grid-cols-3 gap-3">
+
+            {% for size in product.sizes.all %}
+            <div onclick="selectSize({{ size.id }}, {{ size.price }}, {{ size.size_ml }}, {{ size.stock }}, this)"
+                 class="border border-black/20 px-4 py-4 text-center cursor-pointer transition hover:border-black
+                        {% if size.is_default %}border-black{% endif %}
+                        {% if not size.is_in_stock %}opacity-40 cursor-not-allowed{% endif %}">
+
+                <div class="text-sm font-medium text-black mb-1">
+                    {{ size.size_ml }}ml
+                </div>
+
+                <div class="text-[12px] text-black/60">
+                    ₹{{ size.price }}
+                </div>
+
+                {% if not size.is_in_stock %}
+                <div class="text-[10px] text-red-500 mt-1 uppercase tracking-wide">
+                    Out
+                </div>
+                {% endif %}
+
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+    {% endif %}
+
+    <!-- PRICE -->
+    <div class="mb-8">
+        <div class="text-[11px] tracking-[0.25em] uppercase text-black/50 mb-2">
+            Price
+        </div>
+
+        <div class="text-3xl md:text-4xl font-semibold text-black">
+            ₹<span id="displayPrice">{{ product.price }}</span>
+        </div>
+    </div>
+
+    <!-- STOCK -->
+    <div class="mb-8">
+
+        {% if product.is_in_stock %}
+        <div class="flex items-center gap-3">
+            <span class="w-2.5 h-2.5 bg-green-500"></span>
+            <span class="text-sm text-green-600 font-medium" id="stockStatus">
+                In Stock ({{ product.stock }})
+            </span>
+        </div>
+        {% else %}
+        <div class="flex items-center gap-3">
+            <span class="w-2.5 h-2.5 bg-red-500"></span>
+            <span class="text-sm text-red-500 font-medium" id="stockStatus">
+                Out of Stock
+            </span>
+        </div>
+        {% endif %}
+
+    </div>
+         
+    <!-- Quantity Selector -->
+{% if product.is_in_stock or product.sizes.exists %}
+<div class="mb-8">
+
+    <label class="block text-[12px] tracking-[0.25em] uppercase text-black mb-3">
+        Quantity
+    </label>
+
+    <select id="quantity"
+        class="w-[110px] px-4 py-3 border border-black/20 text-sm font-medium bg-white focus:outline-none focus:border-black transition">
+
+        {% for i in "123456789"|make_list %}
+            {% if i|add:0 <= product.stock %}
+                <option value="{{ i }}">{{ i }}</option>
+            {% endif %}
+        {% endfor %}
+
+    </select>
+
+</div>
+
+<!-- MAIN BUTTONS -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
+
+    <!-- BUY NOW -->
+    <button onclick="buyNow({{ product.id }})"
+        class="w-full bg-black text-white py-4 text-[11px] tracking-[0.25em] uppercase transition hover:opacity-90">
+
+        Buy Now
+
+    </button>
+
+    <!-- ADD TO CART -->
+    <button onclick="addToCart({{ product.id }})"
+        class="w-full border border-black text-black py-4 text-[11px] tracking-[0.25em] uppercase transition hover:bg-black hover:text-white">
+
+        Add to Cart
+
+    </button>
+
+</div>
+
+<!-- SECONDARY BUTTONS -->
+<div class="grid grid-cols-2 gap-3 mt-4">
+
+    <button onclick="addToWishlist({{ product.id }})"
+        class="w-full border border-black/20 py-3 text-[10px] tracking-[0.2em] uppercase text-black transition hover:border-black">
+
+        Add to Wishlist
+
+    </button>
+
+    <button onclick="shareProduct()"
+        class="w-full border border-black/20 py-3 text-[10px] tracking-[0.2em] uppercase text-black transition hover:border-black">
+
+        Share
+
+    </button>
+
+</div>
+<!-- DISCLAIMER --> {% if product.is_fabric_only %} <div class="mt-4 border-l-2 border-blue-500 pl-4 py-2 bg-black/[0.02]"> <div class="text-[10px] tracking-[0.2em] uppercase text-blue-700"> For Fabric & Textile Use Only </div> </div> {% endif %}
+
+ <!-- Fragrance Notes -->
+  {% if product.top_notes.exists or product.middle_notes.exists or product.base_notes.exists %}
+<div class="mt-8 border border-black/10 bg-white" style="position: relative; z-index: 20;">
+    
+    <div class="relative">
+        <input type="checkbox" id="main_fragrance_toggle" class="peer hidden">
+        
+        <label for="main_fragrance_toggle" 
+               class="flex justify-between items-center p-5 cursor-pointer hover:bg-black/[0.02] transition-all"
+               style="position: relative; z-index: 30;">
+            <h2 class="text-[11px] tracking-[0.3em] uppercase text-black font-semibold">
+                Fragrance Notes
+            </h2>
+            <div class="transition-transform duration-300 peer-checked:rotate-180">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2">
+                    <path d="M6 9l6 6 6-6" />
+                </svg>
+            </div>
+        </label>
+
+        <div class="max-h-0 opacity-0 invisible peer-checked:opacity-100 peer-checked:visible peer-checked:max-h-[3000px] peer-checked:border-t peer-checked:border-black/5 transition-all duration-500 ease-in-out"
+             style="position: relative; z-index: 40;">
+            
+            <div class="p-5 lg:p-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                {% if product.top_notes.exists %}
+                <div class="relative">
+                    <h3 class="text-[9px] tracking-[0.2em] uppercase text-[#d4af37] font-bold mb-4">Top Notes</h3>
+                    <div class="flex flex-wrap gap-2">
+                        {% for note in product.top_notes %}
+                        <div class="relative group" style="position: relative;">
+                            <div class="border border-black/10 px-3 py-1.5 text-[10px] tracking-wide text-black bg-white uppercase hover:border-black cursor-help transition-all">
+                                {{ note.name }}
+                            </div>
+                            
+                            {% if note.image or note.description %}
+                            <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 hidden group-hover:block w-[260px] bg-white border border-black/10 shadow-2xl pointer-events-none" 
+                                 style="position: absolute; bottom: 110%; left: 0; z-index: 99999; display: none;">
+                                
+                                {% if note.image %}
+                                <div style="width: 100%; aspect-ratio: 16/9; overflow: hidden; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                                    <img src="{{ note.image.url }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                                {% endif %}
+                                
+                                <div style="padding: 12px; background: white;">
+                                    <p style="font-size: 10px; color: rgba(0,0,0,0.7); line-height: 1.5; text-transform: none;">
+                                        {{ note.description|truncatechars:120 }}
+                                    </p>
+                                </div>
+                                <div style="position: absolute; bottom: -6px; left: 20px; width: 12px; height: 12px; background: white; border-right: 1px solid rgba(0,0,0,0.1); border-bottom: 1px solid rgba(0,0,0,0.1); transform: rotate(45deg);"></div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if product.middle_notes.exists %}
+                <div class="relative">
+                    <h3 class="text-[9px] tracking-[0.2em] uppercase text-[#d4af37] font-bold mb-4">Heart Notes</h3>
+                    <div class="flex flex-wrap gap-2">
+                        {% for note in product.middle_notes %}
+                        <div class="relative group" style="position: relative;">
+                            <div class="border border-black/10 px-3 py-1.5 text-[10px] tracking-wide text-black bg-white uppercase hover:border-black cursor-help transition-all">
+                                {{ note.name }}
+                            </div>
+                            {% if note.image or note.description %}
+                            <div class="absolute bottom-full left-0 mb-3 hidden group-hover:block w-[260px] bg-white border border-black/10 shadow-2xl pointer-events-none" 
+                                 style="position: absolute; bottom: 110%; left: 0; z-index: 99999; display: none;">
+                                {% if note.image %}
+                                <div style="width: 100%; aspect-ratio: 16/9; overflow: hidden; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                                    <img src="{{ note.image.url }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                                {% endif %}
+                                <div style="padding: 12px; background: white;">
+                                    <p style="font-size: 10px; color: rgba(0,0,0,0.7); line-height: 1.5; text-transform: none;">
+                                        {{ note.description|truncatechars:120 }}
+                                    </p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if product.base_notes.exists %}
+                <div class="relative">
+                    <h3 class="text-[9px] tracking-[0.2em] uppercase text-[#d4af37] font-bold mb-4">Base Notes</h3>
+                    <div class="flex flex-wrap gap-2">
+                        {% for note in product.base_notes %}
+                        <div class="relative group" style="position: relative;">
+                            <div class="border border-black/10 px-3 py-1.5 text-[10px] tracking-wide text-black bg-white uppercase hover:border-black cursor-help transition-all">
+                                {{ note.name }}
+                            </div>
+                            {% if note.image or note.description %}
+                            <div class="absolute bottom-full left-0 mb-3 hidden group-hover:block w-[260px] bg-white border border-black/10 shadow-2xl pointer-events-none" 
+                                 style="position: absolute; bottom: 110%; left: 0; z-index: 99999; display: none;">
+                                {% if note.image %}
+                                <div style="width: 100%; aspect-ratio: 16/9; overflow: hidden; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                                    <img src="{{ note.image.url }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                                {% endif %}
+                                <div style="padding: 12px; background: white;">
+                                    <p style="font-size: 10px; color: rgba(0,0,0,0.7); line-height: 1.5; text-transform: none;">
+                                        {{ note.description|truncatechars:120 }}
+                                    </p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+    <div class="border-t border-black/10">
+        <div class="relative">
+            <input type="checkbox" id="product_desc_toggle" class="peer hidden" checked>
+            
+            <label for="product_desc_toggle" 
+                class="flex justify-between items-center p-5 cursor-pointer hover:bg-black/[0.02] transition-all"
+                style="position: relative; z-index: 30;">
+                <h2 class="text-[11px] tracking-[0.3em] uppercase text-black font-semibold">
+                    Description
+                </h2>
+                <div class="transition-transform duration-300 peer-checked:rotate-180">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2">
+                        <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                </div>
+            </label>
+
+            <div class="max-h-0 overflow-hidden peer-checked:max-h-[1500px] peer-checked:border-t peer-checked:border-black/5 transition-all duration-500 ease-in-out">
+                <div class="p-6">
+                    <div class="text-[13px] leading-relaxed text-black/70 tracking-wide font-light">
+                        {{ product.description|linebreaks }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Trigger display block on hover and ensure it sits above everything */
+    .group:hover > div[style*="display: none"] {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    /* Important: Prevent parent from clipping tooltips */
+    #main_fragrance_toggle:checked ~ div {
+        overflow: visible !important; 
+    }
+</style>
+{% endif %}
+{% endif %}
+</div>
+</div>
+
+
+
+
+
+
+        <!-- Product Story -->
+        {% if product.story %}
+        <div class="info-section">
+            <h2>✨ The Story</h2>
+            <div class="story-content">
+                {{ product.story|linebreaks }}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Usage Tips -->
+        {% if product.usage_tips %}
+        <div class="info-section">
+            <h2>{% if product.is_fabric_only %}🧺 How to Use - Fabric Application{% else %}💡 Usage Tips{% endif %}</h2>
+            <div class="usage-content">
+                {{ product.usage_tips|linebreaks }}
+            </div>
+            {% if product.is_fabric_only %}
+            <div style="margin-top: 1.5rem; padding: 1.2rem; background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(37,99,235,0.05)); border-radius: 10px; border-left: 4px solid #3b82f6;">
+                <div style="font-size: 0.95rem; color: #1e40af; margin-bottom: 0.8rem; font-weight: 600;">Perfect For:</div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.6rem; font-size: 0.9rem;">
+                    <div style="color: var(--color-text);"><span style="color: #3b82f6;">✓</span> Clothes & Wardrobe</div>
+                    <div style="color: var(--color-text);"><span style="color: #3b82f6;">✓</span> Bed Linens & Pillows</div>
+                    <div style="color: var(--color-text);"><span style="color: #3b82f6;">✓</span> Curtains & Drapes</div>
+                    <div style="color: var(--color-text);"><span style="color: #3b82f6;">✓</span> Sofas & Cushions</div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+{% if related_products %}
+<div style="margin-top: 5rem; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+
+    <div style="text-align: center; margin-bottom: 4rem;">
+        <h2 style="font-size: 30px; letter-spacing: 0.3em; text-transform: uppercase; color: #000; font-weight: 500; margin: 0;">
+           More Products
+        </h2>
+        <div style="width: 40px; height: 1px; background: #000; margin: 1.5rem auto 0; opacity: 0.1;"></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2.5rem; max-width: 1400px; margin: 0 auto; padding: 0 1rem;">
+
+        {% for related_product in related_products %}
+        <div class="product-card-group" style="position: relative; transition: transform 0.4s ease;">
+
+            <div style="position: relative; aspect-ratio: 4/5; overflow: hidden; background-color: #f9f9f9; border: 1px solid rgba(0,0,0,0.03);">
+
+                <a href="{{ related_product.get_absolute_url }}" style="display: block; width: 100%; height: 100%;">
+                    {% if related_product.image %}
+                    <img src="{{ related_product.image.url }}"
+                         alt="{{ related_product.name }}"
+                         style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);"
+                         class="card-image">
+                    {% else %}
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: rgba(0,0,0,0.1); font-size: 2rem;">
+                        ✦
+                    </div>
+                    {% endif %}
+                </a>
+
+                <div class="card-overlay" style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(transparent, rgba(0,0,0,0.05)); opacity: 0; transition: opacity 0.4s ease; display: flex; justify-content: center; align-items: flex-end;">
+                    <a href="{{ related_product.get_absolute_url }}"
+                       style="background: #000; color: #fff; text-decoration: none; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; padding: 12px 24px; font-weight: 600; width: 100%; text-align: center; transition: background 0.3s;">
+                        Explore Details
+                    </a>
+                </div>
+            </div>
+
+            <div style="padding: 1.25rem 0.5rem; text-align: center;">
+                <div style="font-size: 8.5px; letter-spacing: 0.25em; text-transform: uppercase; color: #d4af37; font-weight: 700; margin-bottom: 0.6rem;">
+                    {{ related_product.category.name }}
+                </div>
+
+                <h3 style="font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: #000; font-weight: 500; margin: 0 0 0.75rem 0; line-height: 1.4;">
+                    <a href="{{ related_product.get_absolute_url }}" style="text-decoration: none; color: inherit;">
+                        {{ related_product.name }}
+                    </a>
+                </h3>
+
+                <p style="font-size: 10px; color: #777; font-weight: 300; margin-bottom: 1rem; line-height: 1.6; letter-spacing: 0.02em;">
+                    {{ related_product.short_description|default:related_product.description|truncatechars:45 }}
+                </p>
+
+                <div style="font-size: 12px; font-weight: 600; color: #000; border-top: 1px solid rgba(0,0,0,0.05); display: inline-block; padding-top: 0.75rem;">
+                    ₹{{ related_product.price }}
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+<style>
+    /* Premium Hover Interactions */
+    .product-card-group:hover .card-image {
+        transform: scale(1.08);
+    }
+    
+    .product-card-group:hover .card-overlay {
+        opacity: 1 !important;
+    }
+
+    .product-card-group:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Mobile Responsive Logic */
+    @media (max-width: 640px) {
+        div[style*="grid-template-columns"] {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 1.5rem 1rem !important;
+        }
+        .card-overlay {
+            display: none !important; /* Mobile par clean rakha hai */
+        }
+    }
+</style>
+{% endif %}
+
+        <!-- Customer Reviews Section -->
+        <div class="mt-24 border-t border-black/10 pt-16">
+
+    <!-- HEADER -->
+    <div class="mb-14 text-center">
+        <h2 class="text-[13px] tracking-[0.4em] uppercase text-black">
+            Customer Reviews
+        </h2>
+    </div>
+
+    <div class="max-w-[1600px] mx-auto px-4">
+
+        {% if product.review_count > 0 %}
+
+        <!-- SUMMARY -->
+        <div class="border border-black/10 p-8 mb-12">
+
+            <div class="grid md:grid-cols-[200px_1fr] gap-10 items-center">
+
+                <!-- AVG -->
+                <div class="text-center md:border-r border-black/10 md:pr-6">
+
+                    <div class="text-4xl font-semibold text-black">
+                        {{ product.average_rating }}
+                    </div>
+
+                    <div class="text-[#d4af37] text-lg mt-2">
+                        {% with rating=product.average_rating %}
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= rating %}★{% else %}☆{% endif %}
+                            {% endfor %}
+                        {% endwith %}
+                    </div>
+
+                    <div class="text-black/50 text-sm mt-2">
+                        {{ product.review_count }} review{{ product.review_count|pluralize }}
+                    </div>
+
+                </div>
+
+                <!-- DISTRIBUTION -->
+                <div class="space-y-3">
+
+                    {% with dist=product.get_rating_distribution %}
+
+                    {% for i in "54321" %}
+                    <div class="flex items-center gap-3">
+
+                        <div class="w-12 text-sm text-black/60">
+                            {{ i }} ★
+                        </div>
+
+                        <div class="flex-1 h-[6px] bg-black/10">
+
+                            <div class="h-full bg-[#d4af37]"
+                                 style="width: {% widthratio dist.i product.review_count 100 %}%;">
+                            </div>
+
+                        </div>
+
+                        <div class="w-8 text-xs text-black/40 text-right">
+                            {{ dist.i }}
+                        </div>
+
+                    </div>
+                    {% endfor %}
+
+                    {% endwith %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- REVIEWS SCROLLER -->
+        <div class="overflow-x-auto pb-4">
+            <div class="flex gap-6 w-max">
+
+                {% for review in product.reviews.all %}
+                {% if review.is_approved %}
+
+                <div class="w-[340px] border border-black/10 p-6 flex-shrink-0">
+
+                    <!-- HEADER -->
+                    <div class="flex justify-between mb-4">
+
+                        <div>
+                            <div class="text-sm font-medium text-black">
+                                {{ review.get_display_name }}
+                            </div>
+
+                            {% if review.reviewer_location %}
+                            <div class="text-[11px] text-black/40">
+                                {{ review.reviewer_location }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="text-right">
+                            <div class="text-[#d4af37] text-sm">
+                                {{ review.get_star_display }}
+                            </div>
+                            <div class="text-[10px] text-black/40 mt-1">
+                                {{ review.created_at|date:"d M Y" }}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- TITLE -->
+                    <div class="text-sm font-medium text-black mb-2">
+                        {{ review.title }}
+                    </div>
+
+                    <!-- TEXT -->
+                    <p class="text-[13px] text-black/60 leading-relaxed">
+                        {{ review.review_text }}
+                    </p>
+
+                    <!-- IMAGES -->
+                    {% if review.images.exists %}
+                    <div class="flex gap-2 mt-4 flex-wrap">
+                        {% for image in review.images.all %}
+                        <img src="{{ image.image.url }}"
+                             class="w-16 h-16 object-cover border border-black/10">
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <!-- HELPFUL -->
+                    {% if review.helpful_count > 0 %}
+                    <div class="mt-4 pt-3 border-t border-black/10 text-[11px] text-black/40">
+                        {{ review.helpful_count }} found helpful
+                    </div>
+                    {% endif %}
+
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <!-- SCROLL HINT -->
+        {% if product.review_count > 2 %}
+        <div class="text-center mt-6 text-[11px] text-black/40 tracking-wide">
+            Scroll to explore reviews
+        </div>
+        {% endif %}
+
+        {% else %}
+
+        <!-- EMPTY -->
+        <div class="text-center py-16 border border-black/10">
+
+            <div class="text-lg text-black mb-2">
+                No Reviews Yet
+            </div>
+
+            <div class="text-sm text-black/50">
+                Be the first to review this fragrance
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+</div>
+</div>
+
+<script>
+    let selectedSizeId = null;
+    let selectedPrice = {{ product.price }};
+
+    // Get CSRF token for Django
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function getCSRFToken() {
+        // Try to get from cookie first
+        let token = getCookie('csrftoken');
+        // If not in cookie, try to get from DOM (for Django's csrf_token tag)
+        if (!token) {
+            const csrfInput = document.querySelector('[name=csrfmiddlewaretoken]');
+            if (csrfInput) {
+                token = csrfInput.value;
+            }
+        }
+        return token;
+    }
+
+    const csrftoken = getCSRFToken();
+
+    // Show notification
+    function showNotification(message, type = 'success') {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: ${type === 'success' ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #ef4444, #dc2626)'};
+            color: white;
+            padding: 1.2rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            z-index: 10000;
+            font-weight: 600;
+            animation: slideIn 0.3s ease-out;
+        `;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease-out';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+
+    // Change main image
+    function changeImage(imageUrl, thumbnail) {
+        document.getElementById('mainImage').src = imageUrl;
+
+        // Remove active class from all thumbnails
+        document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+
+        // Add active class to clicked thumbnail
+        thumbnail.classList.add('active');
+    }
+
+    // Select size
+    function selectSize(sizeId, price, sizeML, stock, element) {
+        if (stock <= 0) return;
+
+        // Remove active class from all size options
+        document.querySelectorAll('.size-option').forEach(el => el.classList.remove('active'));
+
+        // Add active class to selected size
+        element.classList.add('active');
+
+        // Update price display
+        document.getElementById('displayPrice').textContent = '₹' + price;
+
+        // Update stock status
+        const stockStatus = document.getElementById('stockStatus');
+        if (stock > 0) {
+            stockStatus.innerHTML = 'In Stock (' + stock + ' available)';
+            stockStatus.style.color = '#10b981';
+            stockStatus.previousElementSibling.style.background = '#10b981';
+        }
+
+        // Update quantity selector
+        const quantitySelect = document.getElementById('quantity');
+        quantitySelect.innerHTML = '';
+        for (let i = 1; i <= Math.min(stock, 9); i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = i;
+            quantitySelect.appendChild(option);
+        }
+
+        selectedSizeId = sizeId;
+        selectedPrice = price;
+    }
+
+    // Add to cart with AJAX
+    function addToCart(productId) {
+        const quantity = document.getElementById('quantity').value;
+
+        const formData = new FormData();
+        formData.append('product_id', productId);
+        formData.append('quantity', quantity);
+        if (selectedSizeId) {
+            formData.append('size_id', selectedSizeId);
+        }
+
+        fetch('{% url "add_to_cart" %}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken,
+            },
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => Promise.reject(err));
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                showNotification(data.message, 'success');
+                // Update cart count in navigation
+                const cartCount = document.getElementById('cart-count');
+                if (cartCount) {
+                    cartCount.textContent = data.cart_total_items;
+                    cartCount.style.display = data.cart_total_items > 0 ? 'flex' : 'none';
+                    // Save to session storage
+                    sessionStorage.setItem('cart_count', data.cart_total_items);
+                }
+            } else {
+                showNotification(data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const errorMessage = error.message || 'Error processing your request. Please try again.';
+            showNotification(errorMessage, 'error');
+        });
+    }
+
+    // Buy now - add to cart and redirect to checkout
+    function buyNow(productId) {
+        const quantity = document.getElementById('quantity').value;
+
+        const formData = new FormData();
+        formData.append('product_id', productId);
+        formData.append('quantity', quantity);
+        if (selectedSizeId) {
+            formData.append('size_id', selectedSizeId);
+        }
+
+        fetch('{% url "add_to_cart" %}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken,
+            },
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => Promise.reject(err));
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                // Redirect to cart or checkout
+                window.location.href = '{% url "cart_detail" %}';
+            } else {
+                showNotification(data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const errorMessage = error.message || 'Error processing your request. Please try again.';
+            showNotification(errorMessage, 'error');
+        });
+    }
+
+    // Add to wishlist
+    function addToWishlist(productId) {
+        const formData = new FormData();
+        formData.append('product_id', productId);
+
+        fetch('{% url "add_to_wishlist" %}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken,
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showNotification(data.message, 'success');
+            } else if (data.redirect) {
+                // User not logged in, redirect to login
+                showNotification(data.message, 'error');
+                setTimeout(() => {
+                    window.location.href = data.redirect + '?next=' + window.location.pathname;
+                }, 1500);
+            } else {
+                showNotification(data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Error adding to wishlist. Please try again.', 'error');
+        });
+    }
+
+    // Share product
+    function shareProduct() {
+        if (navigator.share) {
+            navigator.share({
+                title: '{{ product.name }}',
+                text: '{{ product.short_description|default:product.description|truncatechars:100 }}',
+                url: window.location.href
+            }).catch(err => console.log('Error sharing:', err));
+        } else {
+            // Fallback: Copy URL to clipboard
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                showNotification('Product link copied to clipboard!', 'success');
+            });
+        }
+    }
+
+    // Scroll reviews horizontally
+    function scrollReviews(direction) {
+        const reviewsList = document.querySelector('.reviews-list');
+        const scrollAmount = 420; // Slightly more than card width to show next card
+
+        if (direction === 'left') {
+            reviewsList.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        } else {
+            reviewsList.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    }
+</script>
+
+<style>
+    @keyframes slideIn {
+        from {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+    }
+</style>
+{% endblock %}

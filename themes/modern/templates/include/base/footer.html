@@ -1,0 +1,104 @@
+<section class="cta" style="background-color: #0b0806; padding: 80px 0;">
+    <div style="max-width: 900px; margin: 0 auto; padding: 0 16px; text-align: center;">
+        <h2 style="color: #ffffff; font-size: 24px; font-weight: 600; letter-spacing: 0.06em; margin: 0;">
+            Find Your Signature Scent
+        </h2>
+
+        <p style="color: rgba(255, 255, 255, 0.6); margin-top: 20px; font-size: 14px; line-height: 1.6; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Join thousands who have discovered their perfect fragrance — crafted with elegance, inspired by luxury.
+        </p>
+
+        <div style="margin-top: 32px;">
+            <a href="{% url 'product_list' %}"
+               style="display: inline-block; border: 1px solid rgba(212, 175, 55, 0.5); color: #d4af37; padding: 16px 40px; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; text-decoration: none; transition: all 0.5s ease;"
+               onmouseover="this.style.backgroundColor='#d4af37'; this.style.color='#000000';"
+               onmouseout="this.style.backgroundColor='transparent'; this.style.color='#d4af37';">
+                Start Shopping
+            </a>
+        </div>
+    </div>
+</section>
+
+<footer style="background-color: #000000; color: #d0d0d0; font-family: sans-serif;">
+    <div class="footer-grid" style="max-width: 1400px; margin: 0 auto; padding: 56px 16px; display: grid; gap: 40px;">
+        
+        <div class="brand-section">
+            <h2 style="font-size: 24px; font-family: serif; color: #ffffff; margin-bottom: 12px; letter-spacing: 2px;">AURÉLIE</h2>
+            <p style="font-size: 14px; color: #ffffff; margin-bottom: 20px;">
+                Stay connected by subscribing to our newsletter.
+            </p>
+            <form style="display: flex; overflow: hidden; border-radius: 4px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                <input type="email" placeholder="Your Email Address"
+                    style="width: 100%; padding: 8px 16px; background-color: #111; color: #ffffff; border: none; font-size: 14px; outline: none;">
+                <button type="submit"
+                    style="padding: 0 16px; background-color: #967625; color: #ffffff; font-size: 14px; font-weight: 500; border: none; cursor: pointer; transition: opacity 0.3s;"
+                    onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                    Subscribe
+                </button>
+            </form>
+        </div>
+
+        <div class="links-wrapper" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+                <h4 style="font-size: 12px; color: #ffffff; margin-bottom: 16px; letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 8px;">
+                    Company
+                </h4>
+                <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; line-height: 2;">
+                    <li><a href="{% url 'about_us' %}" style="color: inherit; text-decoration: none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='inherit'">About Us</a></li>
+                    <li><a href="{% url 'shipping_info' %}" style="color: inherit; text-decoration: none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='inherit'">Shipping Policy</a></li>
+                    <li><a href="{% url 'returns_policy' %}" style="color: inherit; text-decoration: none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='inherit'">Return Policy</a></li>
+                    <li><a href="{% url 'terms_of_service' %}" style="color: inherit; text-decoration: none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='inherit'">Terms & Conditions</a></li>
+                    <li><a href="{% url 'privacy_policy' %}" style="color: inherit; text-decoration: none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='inherit'">Privacy Policy</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 style="font-size: 12px; color: #ffffff; margin-bottom: 16px; letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 8px;">
+                    Quick Links
+                </h4>
+                <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; line-height: 2;">
+                    <li><a href="{% url 'login' %}" style="color: inherit; text-decoration: none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='inherit'">Login</a></li>
+                    <li><a href="/accounts/orders/" style="color: inherit; text-decoration: none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='inherit'">Order History</a></li>
+                    <li><a href="{% url 'wishlist' %}" style="color: inherit; text-decoration: none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='inherit'">My Wishlist</a></li>
+                    <li><a href="/accounts/profile/edit/" style="color: inherit; text-decoration: none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='inherit'">Update Profile</a></li>
+                    <li><a href="{% url 'contact_us' %}" style="color: inherit; text-decoration: none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='inherit'">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="contact-section">
+            <h4 style="font-size: 12px; color: #ffffff; margin-bottom: 16px; letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 8px;">
+                Get In Touch
+            </h4>
+            <div style="font-size: 14px; color: #ffffff;">
+                <p style="margin: 0;">
+                    <span style="color: #ffffff;">Email:</span><br>
+                    <a href="mailto:support@aurelieparfum.com" style="color: inherit; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='inherit'">
+                        support@aurelieparfum.com
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; font-size: 11px; color: #777; padding: 16px 0; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+        © 2025 aurelie.com | All Rights Reserved.
+    </div>
+</footer>
+
+<style>
+    /* Desktop layout maintains 4 columns */
+    @media (min-width: 1024px) {
+        .footer-grid { grid-template-columns: repeat(4, 1fr) !important; }
+        .links-wrapper { display: contents !important; } /* Unwraps the div for grid flow */
+    }
+    /* Tablet layout */
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .footer-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        .links-wrapper { display: contents !important; }
+    }
+    /* Mobile: Brand and Contact stay full width, but Links are 2-col */
+    @media (max-width: 767px) {
+        .footer-grid { grid-template-columns: 1fr !important; }
+    }
+</style>

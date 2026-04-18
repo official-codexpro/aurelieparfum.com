@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block title %}Returns & Refunds - Aurélie Parfum{% endblock %}
+
+{% block schema_org %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MerchantReturnPolicy",
+  "applicableCountry": "IN",
+  "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+  "merchantReturnDays": 7,
+  "returnMethod": "https://schema.org/ReturnByMail",
+  "returnFees": "https://schema.org/FreeReturn",
+  "refundType": "https://schema.org/FullRefund",
+  "itemCondition": "https://schema.org/NewCondition",
+  "description": "We accept returns within 7 days of delivery for damaged, defective, or wrong products. Products must be unused with original packaging, seals, and tags intact. Refunds are processed within 5-7 business days after quality inspection.",
+  "additionalProperty": [
+    {
+      "@type": "PropertyValue",
+      "name": "Return Eligibility",
+      "value": "Damaged or defective products, wrong products delivered, broken seals, missing items, or products differing from description"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Return Process",
+      "value": "Contact customer care within 7 days, receive approval within 24-48 hours, pack securely, and arrange pickup or shipping"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Refund Timeline",
+      "value": "Quality check 1-2 business days, refund initiation 2-3 business days, credit to account 5-7 business days"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Contact Email",
+      "value": "support@aurelieparfum.com"
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="py-10 md:py-14" style="background-color: #fafafa; font-family: inherit;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div style="text-align: center; margin-bottom: 3.5rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 2rem;">
+            <h1 style="font-size: 3rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.5rem; letter-spacing: -0.02em;">
+                Returns & Refunds
+            </h1>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
+                <span style="height: 1px; width: 40px; background: var(--color-gold);"></span>
+                <p class="text-muted" style="font-size: 1rem; text-transform: uppercase; letter-spacing: 1.5px; margin: 0; color: var(--color-gold);">
+                    Our Quality Assurance Guarantee
+                </p>
+                <span style="height: 1px; width: 40px; background: var(--color-gold);"></span>
+            </div>
+        </div>
+
+        <div style="background: linear-gradient(135deg, var(--color-primary) 0%, #1a1a1a 100%); padding: 3rem; border-radius: 16px; text-align: center; margin-bottom: 3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; overflow: hidden;">
+            <div style="position: absolute; top: -20px; right: -20px; font-size: 8rem; opacity: 0.05; color: #fff;">🔄</div>
+            <h2 style="font-size: 2.2rem; font-weight: 700; margin-bottom: 0.75rem; color: #000000;">
+                7-Day Concierge Return Policy
+            </h2>
+            <p style="font-size: 1.2rem; margin: 0; color: var(--color-gold); font-weight: 300; letter-spacing: 0.5px;">
+                Seamless returns for a worry-free fragrance experience.
+            </p>
+        </div>
+
+        <div class="card" style="margin-bottom: 2.5rem; border: 1px solid rgba(0,0,0,0.05); border-radius: 12px; background: #fff;">
+            <div class="card-body" style="padding: 2.5rem;">
+                <h2 style="font-size: 1.75rem; font-weight: 600; margin-bottom: 2rem; color: var(--color-primary); border-left: 4px solid var(--color-gold); padding-left: 1rem;">
+                    Eligibility & Criteria
+                </h2>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
+                    <div>
+                        <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1.2rem; color: var(--color-text); text-transform: uppercase; letter-spacing: 1px;">
+                            ✅ Valid Return Cases
+                        </h3>
+                        <ul style="line-height: 2.2; color: var(--color-text); list-style-type: '→ '; padding-left: 0.5rem;">
+                            <li>Damaged or defective transit handling</li>
+                            <li>Incorrect product dispatch</li>
+                            <li>Tampered security seals upon arrival</li>
+                            <li>Incomplete order components</li>
+                            <li>Significant variance from description</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1.2rem; color: var(--color-text); text-transform: uppercase; letter-spacing: 1px;">
+                            📋 Essential Conditions
+                        </h3>
+                        <ul style="line-height: 2.2; color: var(--color-text); list-style-type: '— '; padding-left: 0.5rem;">
+                            <li>Product must be strictly <strong>unused</strong></li>
+                            <li>Original luxury packaging remains intact</li>
+                            <li>All batch tags and labels attached</li>
+                            <li>Proof of purchase (Invoice) included</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(239,68,68,0.05); border-radius: 10px; border: 1px dashed #ef4444;">
+                    <p style="margin: 0; font-size: 0.95rem; color: var(--color-text); line-height: 1.6;">
+                        <strong style="color: #ef4444;">Hygiene Protocol:</strong> Due to the artisanal nature of our fragrances, products with broken atomizers or "tested" liquids cannot be returned for hygiene and safety reasons, unless verified as defective.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 2.5rem; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border-radius: 12px; background: #fff;">
+            <div class="card-body" style="padding: 2.5rem;">
+                <h2 style="font-size: 1.75rem; font-weight: 600; margin-bottom: 2.5rem; color: var(--color-primary); text-align: center;">
+                    The Return Journey
+                </h2>
+                
+                <div style="display: flex; flex-direction: column; gap: 0;">
+                    <div style="display: flex; gap: 20px; padding-bottom: 2rem; border-left: 2px solid var(--color-gold); position: relative; margin-left: 20px; padding-left: 30px;">
+                        <div style="position: absolute; left: -11px; top: 0; width: 20px; height: 20px; border-radius: 50%; background: var(--color-gold); border: 4px solid #fff;"></div>
+                        <div>
+                            <h3 style="font-size: 1.1rem; font-weight: 600; color: var(--color-primary); margin-bottom: 0.5rem;">01. Initiate Request</h3>
+                            <p style="color: var(--color-text); line-height: 1.6; font-size: 0.95rem;">Contact support via <strong>support@aurelieparfum.com</strong> within 7 days. Include high-resolution images if the item is damaged.</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 20px; padding-bottom: 2rem; border-left: 2px solid var(--color-gold); position: relative; margin-left: 20px; padding-left: 30px;">
+                        <div style="position: absolute; left: -11px; top: 0; width: 20px; height: 20px; border-radius: 50%; background: var(--color-gold); border: 4px solid #fff;"></div>
+                        <div>
+                            <h3 style="font-size: 1.1rem; font-weight: 600; color: var(--color-primary); margin-bottom: 0.5rem;">02. Professional Review</h3>
+                            <p style="color: var(--color-text); line-height: 1.6; font-size: 0.95rem;">Our quality control team reviews your request within 24-48 hours. Approval is sent via a Confirmation Ticket.</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 20px; padding-bottom: 2rem; border-left: 2px solid var(--color-gold); position: relative; margin-left: 20px; padding-left: 30px;">
+                        <div style="position: absolute; left: -11px; top: 0; width: 20px; height: 20px; border-radius: 50%; background: var(--color-gold); border: 4px solid #fff;"></div>
+                        <div>
+                            <h3 style="font-size: 1.1rem; font-weight: 600; color: var(--color-primary); margin-bottom: 0.5rem;">03. Secure Packaging</h3>
+                            <p style="color: var(--color-text); line-height: 1.6; font-size: 0.95rem;">Carefully place the item in its original box. We recommend using the outer shipping box provided during delivery for maximum safety.</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 20px; position: relative; margin-left: 20px; padding-left: 30px;">
+                        <div style="position: absolute; left: -11px; top: 0; width: 20px; height: 20px; border-radius: 50%; background: var(--color-gold); border: 4px solid #fff;"></div>
+                        <div>
+                            <h3 style="font-size: 1.1rem; font-weight: 600; color: var(--color-primary); margin-bottom: 0.5rem;">04. Complimentary Pickup</h3>
+                            <p style="color: var(--color-text); line-height: 1.6; font-size: 0.95rem;">Our logistics partner will arrive for a doorstep pickup at no cost to you. Please ensure the Confirmation Ticket is ready.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; margin-bottom: 2.5rem;">
+            <div class="card" style="border: 1px solid rgba(0,0,0,0.05); border-radius: 12px; background: #fff;">
+                <div class="card-body" style="padding: 2rem;">
+                    <h2 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--color-primary);">💰 Refund Logistics</h2>
+                    <div style="background: rgba(212,175,55,0.05); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                        <table style="width: 100%; font-size: 0.95rem; border-collapse: collapse;">
+                            <tr style="border-bottom: 1px solid rgba(0,0,0,0.05);">
+                                <td style="padding: 10px 0; color: #666;">Inspection:</td>
+                                <td style="padding: 10px 0; text-align: right; font-weight: 600;">1-2 Business Days</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid rgba(0,0,0,0.05);">
+                                <td style="padding: 10px 0; color: #666;">Initiation:</td>
+                                <td style="padding: 10px 0; text-align: right; font-weight: 600;">2-3 Business Days</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px 0; color: #666;">Settlement:</td>
+                                <td style="padding: 10px 0; text-align: right; font-weight: 600;">5-7 Business Days</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <p style="font-size: 0.85rem; color: #888; margin: 0;">Refunds are credited back to the original payment source (UPI, Credit/Debit Card, or Net Banking).</p>
+                </div>
+            </div>
+
+            <div class="card" style="border: 1px solid rgba(0,0,0,0.05); border-radius: 12px; background: #fff;">
+                <div class="card-body" style="padding: 2rem;">
+                    <h2 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1.2rem; color: var(--color-primary);">🔄 Exchange & ❌ Cancel</h2>
+                    <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">
+                        <strong>Exchanges:</strong> We follow a "Return & Re-order" model to ensure you get your desired fragrance as quickly as possible without manual processing delays.
+                    </p>
+                    <p style="font-size: 0.95rem; line-height: 1.6; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 1rem;">
+                        <strong>Cancellations:</strong> Permitted via your dashboard only <em>before</em> dispatch. Post-dispatch, please refuse the delivery or follow the return process.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; padding: 3rem; background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.03) 100%); border-radius: 20px; border: 1px solid rgba(212,175,55,0.15);">
+            <h3 style="font-size: 1.8rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-primary);">Still have questions?</h3>
+            <p style="color: var(--color-text-light); margin-bottom: 2rem; font-size: 1.1rem;">Our customer concierge is available to guide you through the process.</p>
+            
+            <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+                <a href="{% url 'contact_us' %}" style="background: var(--color-primary); color: #fff; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">
+                    Contact Support
+                </a>
+            </div>
+            
+            <p style="margin-top: 2rem; font-size: 0.85rem; color: var(--color-gold); text-transform: uppercase; letter-spacing: 2px;">
+                Aurélie Parfum — Excellence in every bottle.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

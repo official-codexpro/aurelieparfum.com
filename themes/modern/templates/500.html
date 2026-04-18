@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>500 — Server Error | Aurélie Parfum</title>
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated background orbs */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.12;
+            animation: drift 12s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+        body::before {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, #d4af37, transparent);
+            top: -150px; left: -150px;
+        }
+        body::after {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, #8b7355, transparent);
+            bottom: -100px; right: -100px;
+            animation-delay: -6s;
+        }
+
+        @keyframes drift {
+            from { transform: translate(0, 0) scale(1); }
+            to   { transform: translate(40px, 30px) scale(1.1); }
+        }
+
+        .wrapper {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 640px;
+            width: 100%;
+        }
+
+        .brand {
+            font-size: 10px;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: #d4af37;
+            margin-bottom: 3rem;
+            display: block;
+        }
+
+        .brand::before, .brand::after {
+            content: '—';
+            margin: 0 12px;
+            opacity: 0.5;
+        }
+
+        .code {
+            font-size: clamp(5rem, 18vw, 10rem);
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.04em;
+            color: #fff;
+            margin-bottom: 0.25rem;
+        }
+
+        .code span { color: #d4af37; }
+
+        .gold-line {
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            margin: 1.5rem auto;
+        }
+
+        h1 {
+            font-size: clamp(1rem, 3vw, 1.4rem);
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 0.25rem;
+        }
+
+        p {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.9;
+            margin: 1.5rem auto 2.5rem;
+            max-width: 440px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 13px 34px;
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #d4af37;
+            color: #000;
+            border: 1px solid #d4af37;
+        }
+        .btn-primary:hover {
+            background: transparent;
+            color: #d4af37;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .btn-outline:hover {
+            border-color: #d4af37;
+            color: #d4af37;
+            transform: translateY(-2px);
+        }
+
+        .info-box {
+            border: 1px solid rgba(212,175,55,0.2);
+            padding: 1.5rem 2rem;
+            margin-top: 1rem;
+            background: rgba(212,175,55,0.04);
+        }
+
+        .info-box p {
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.35);
+            margin: 0;
+            line-height: 2;
+        }
+
+        .info-box strong {
+            color: rgba(212,175,55,0.7);
+        }
+
+        .icon {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: 1.5rem;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.95); }
+        }
+
+        .footer-note {
+            margin-top: 2.5rem;
+            font-size: 9px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <span class="brand">Aurélie Parfum</span>
+
+        <span class="icon">⚗️</span>
+
+        <div class="code">5<span>0</span>0</div>
+
+        <div class="gold-line"></div>
+
+        <h1>Something Went Wrong</h1>
+
+        <p>
+            Our atelier encountered an unexpected error.<br>
+            Our team has been notified and is working to restore the experience.<br>
+            Please try again in a few moments.
+        </p>
+
+        <div class="actions">
+            <a href="/" class="btn btn-primary">Return Home</a>
+            <a href="/products/" class="btn btn-outline">Browse Fragrances</a>
+        </div>
+
+        <div class="info-box">
+            <p>
+                <strong>What you can do</strong><br>
+                Refresh the page in a few moments &nbsp;·&nbsp; Clear your browser cache &nbsp;·&nbsp;
+                Contact us at <strong>support@aurelieparfum.com</strong> if this persists
+            </p>
+        </div>
+
+        <p class="footer-note">Error 500 &nbsp;·&nbsp; Internal Server Error</p>
+    </div>
+</body>
+</html>

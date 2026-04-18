@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}Aurélie Parfum - Luxury Fragrances Inspired by Excellence{% endblock %}
+
+{% block theme_styles %}
+<style>
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- ═══════════════════════════════════════════════════════════
+     HERO & PERFUME CATAGORIES SECITON INCLUDE 
+═══════════════════════════════════════════════════════════ -->
+{% include "include/hero/hero.html" %}
+{% include "include/catagories/perfume.html" %}
+
+<!-- ═══════════════════════════════════════════════════════════
+     WOMEN PERFUME COLLECTION IMAGE SECTION 
+═══════════════════════════════════════════════════════════ -->
+
+<a href="/products/midnight-groove-perfume/" class="w-full bg-white">
+  
+  <div class="relative w-full h-[75vh] md:h-[90vh] overflow-hidden flex items-center justify-center" style="position: relative; width: 100%; background: #000; display: flex; align-items: center; justify-content: center;">
+
+    <img 
+      src="/media/banner/banner section/midnight.jpg"
+      alt="Luxury Fashion"
+      class="w-full h-full object-cover opacity-90"
+      style="width: 100%; height: 100%; object-fit: cover; opacity: 0.85;"
+    />
+  </div>
+</a>
+<!-- ═══════════════════════════════════════════════════════════
+     WOMEN PERFUME PRODUCTS INCLUDE HERE
+═══════════════════════════════════════════════════════════ -->
+{% include "shortcode/women-product.html" with featured_products=featured_products|slice:":17" %}
+
+<!-- Trust Section -->
+<section class="bg-[#0b0806] py-16 mb-1">
+    <div class="max-w-[1400px] mx-auto px-4">
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
+
+            <!-- ITEM -->
+            <div class="group transition duration-300">
+                <div class="flex justify-center mb-4 text-white/80 group-hover:text-[#d4af37] transition">
+                    <!-- Truck -->
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.3" viewBox="0 0 24 24">
+                        <path d="M3 7h11v8H3z"/>
+                        <path d="M14 10h4l3 3v2h-7z"/>
+                        <circle cx="7.5" cy="18.5" r="1.5"/>
+                        <circle cx="17.5" cy="18.5" r="1.5"/>
+                    </svg>
+                </div>
+                <h3 class="text-[11px] tracking-[0.25em] uppercase text-white font-medium mb-2">
+                    Free Shipping
+                </h3>
+                <p class="text-white/60 text-sm max-w-[200px] mx-auto">
+                    Complimentary shipping on all orders over ₹999
+                </p>
+            </div>
+
+            <!-- ITEM -->
+            <div class="group transition duration-300">
+                <div class="flex justify-center mb-4 text-white/80 group-hover:text-[#d4af37] transition">
+                    <!-- Sparkle -->
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.3" viewBox="0 0 24 24">
+                        <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/>
+                    </svg>
+                </div>
+                <h3 class="text-[11px] tracking-[0.25em] uppercase text-white font-medium mb-2">
+                    Authentic Quality
+                </h3>
+                <p class="text-white/60 text-sm max-w-[200px] mx-auto">
+                    100% genuine fragrances inspired by luxury brands
+                </p>
+            </div>
+
+            <!-- ITEM -->
+            <div class="group transition duration-300">
+                <div class="flex justify-center mb-4 text-white/80 group-hover:text-[#d4af37] transition">
+                    <!-- Gift -->
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.3" viewBox="0 0 24 24">
+                        <rect x="3" y="8" width="18" height="12"/>
+                        <path d="M12 8v12"/>
+                        <path d="M3 12h18"/>
+                        <path d="M12 8c-2-3-5-2-5 0h5z"/>
+                        <path d="M12 8c2-3 5-2 5 0h-5z"/>
+                    </svg>
+                </div>
+                <h3 class="text-[11px] tracking-[0.25em] uppercase text-white font-medium mb-2">
+                    Gift Wrapping
+                </h3>
+                <p class="text-white/60 text-sm max-w-[200px] mx-auto">
+                    Elegant packaging available for every order
+                </p>
+            </div>
+
+            <!-- ITEM -->
+            <div class="group transition duration-300">
+                <div class="flex justify-center mb-4 text-white/80 group-hover:text-[#d4af37] transition">
+                    <!-- Heart -->
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.3" viewBox="0 0 24 24">
+                        <path d="M12 21s-6-4.5-9-8.5C1 9 3 6 6 6c2 0 3 1 6 4 3-3 4-4 6-4 3 0 5 3 3 6.5C18 16.5 12 21 12 21z"/>
+                    </svg>
+                </div>
+                <h3 class="text-[11px] tracking-[0.25em] uppercase text-white font-medium mb-2">
+                    Satisfaction Guaranteed
+                </h3>
+                <p class="text-white/60 text-sm max-w-[200px] mx-auto">
+                    7-day returns on all unopened products
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+    INCLUDE BESTSELLER SECITON HERE
+═══════════════════════════════════════════════════════════ -->
+{% include "include/base/bestseller.html" %}
+
+<!-- ═══════════════════════════════════════════════════════════
+     MEN PERFUME COLLECTION IMAGE SECTION
+═══════════════════════════════════════════════════════════ -->
+
+<a href="/products/savnore-perfume/" class="w-full bg-white">
+  
+  <div class="relative w-full h-[75vh] md:h-[90vh] overflow-hidden flex items-center justify-center" style="position: relative; width: 100%; background: #000; display: flex; align-items: center; justify-content: center;">
+
+    <img 
+      src="/media/banner/list-banner/men.jpg"
+      alt="Luxury Fashion"
+      class="w-full h-full object-cover opacity-90"
+      style="width: 100%; height: 100%; object-fit: cover; opacity: 0.85;"
+    />
+  </div>
+</a>
+ <!-- ═══════════════════════════════════════════════════════════
+     Featured Products MEN perfume
+═══════════════════════════════════════════════════════════ -->
+{% include "shortcode/men-product.html" with featured_products=featured_products|slice:":4" %}
+
+<!-- ═══════════════════════════════════════════════════════════
+     ROLLON PERFUME COLLECTION IMAGE SECTION
+═══════════════════════════════════════════════════════════ -->
+{% include "include/catagories/rollon.html" %}
+
+ <!-- ═══════════════════════════════════════════════════════════
+     Featured Products Rollon perfume
+═══════════════════════════════════════════════════════════ -->
+{% include "shortcode/rollon.html" with featured_products=featured_products|slice:":12" %}
+{% endblock %}

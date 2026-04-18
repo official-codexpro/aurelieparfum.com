@@ -1,0 +1,111 @@
+<section style="position: relative; width: 100%; background-color: #050505; overflow: hidden; font-family: sans-serif;">
+  
+  <div class="main-banner" 
+       style="display: flex; min-height: 500px; align-items: center; position: relative;
+              {% if category.slug == 'men-perfume' or category.slug == 'men' %}
+                /* MEN PERFUME */
+                background: url('/media/banner/list-banner/men.jpg') center/cover no-repeat;
+              {% elif category.slug == 'women-perfume' or category.slug == 'women' %}
+                /* WOMEN PERFUME */
+                background: url('/media/banner/list-banner/womenbanner.jpg') center/cover no-repeat;
+              {% elif category.slug == 'men-roll-on' %}
+                /* MEN ROLL ON */
+                background: url('/media/banner/list-banner/menroll.jpg') center/cover no-repeat;
+              {% elif category.slug == 'women-roll-on' or category.slug == 'roll-on' %}
+                /* WOMEN ROLL ON / GENERAL ROLL ON */
+                background: url('/media/banner/list-banner/womenroll.jpg') center/cover no-repeat;
+              {% else %}
+                /* DEFAULT LUXURY */
+                background: url('/media/banner/list-banner/default.jpg') center/cover no-repeat;
+              {% endif %}">
+    
+    <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.4); z-index: 1;"></div>
+    
+    <div style="z-index: 10; width: 100%; max-width: 1700px; margin: 0 auto; padding: 0 80px; display: flex; justify-content: space-between; align-items: center; position: relative;">
+      
+      <div style="max-width: 600px;">
+        <h2 style="color: #fff; opacity: 0.6; font-size: 0.8rem; letter-spacing: 0.4em; text-transform: uppercase; margin-bottom: 10px;">
+          {% if category %}{{ category.name }}{% else %}Exclusive{% endif %} Collection
+        </h2>
+        <h1 style="color: #fff; font-size: 4.5rem; font-weight: 900; line-height: 1.1; text-transform: uppercase; margin: 0;">
+          {% if category %}{{ category.name }}{% else %}All Products{% endif %}
+        </h1>
+        <p style="color: rgba(255,255,255,0.7); margin-top: 20px; font-size: 1rem; max-width: 400px; line-height: 1.6;">
+          Indulge in the art of fine perfumery with our signature {{ category.name|default:"scents" }}.
+        </p>
+      </div>
+      
+      <div style="display: flex; gap: 30px; border-left: 2px solid rgba(255,255,255,0.2); padding-left: 30px;" class="hide-very-small">
+          <div style="text-align: center;">
+              <span style="display: block; color: #fff; font-size: 2rem; font-weight: 800;">{{ products.count }}</span>
+              <span style="color: rgba(255,255,255,0.4); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px;">Items</span>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="width: 100%; background: #000000; padding: 12px 0; color: #ffffff; border-top: 1px solid rgba(255,255,255,0.1);">
+    <div style="max-width: 1700px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 80px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="width: 8px; height: 8px; background: #ff0000; border-radius: 50%; display: inline-block;"></span>
+        <span style="font-weight: 900; font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;">Flash Sale Active</span>
+      </div>
+      <div id="timer" style="font-weight: 800; font-size: 1rem; font-variant-numeric: tabular-nums; color: #fff;">
+        00 : 00 : 00
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Base Grid for Products (1700px) */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px 25px;
+    max-width: 1700px;
+    margin: 60px auto;
+    padding: 0 80px;
+  }
+
+  .product-item { position: relative; overflow: hidden; }
+  .product-item:hover img { transform: scale(1.1); }
+
+  /* RESPONSIVE ADJUSTMENTS */
+  @media (max-width: 1024px) {
+    .product-grid { grid-template-columns: repeat(3, 1fr); padding: 0 40px; }
+  }
+
+  @media (max-width: 768px) {
+    .main-banner { height: auto !important; padding: 60px 0 !important; }
+    .main-banner h1 { font-size: 3rem !important; }
+    .main-banner h2 { font-size: 0.6rem !important; }
+    .main-banner div[style*="padding: 0 80px"] { padding: 0 20px !important; }
+    
+    .product-grid { 
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 20px 15px; 
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+    .hide-very-small { display: none !important; }
+    section div[style*="padding: 0 80px"] { padding: 0 20px !important; }
+  }
+</style>
+
+<script>
+(function() {
+  const duration = 5 * 60 * 60 * 1000;
+  let start = Date.now();
+  function tick() {
+    const remain = duration - ((Date.now() - start) % duration);
+    const h = String(Math.floor((remain / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+    const m = String(Math.floor((remain / (1000 * 60)) % 60)).padStart(2, '0');
+    const s = String(Math.floor((remain / 1000) % 60)).padStart(2, '0');
+    const timerEl = document.getElementById("timer");
+    if(timerEl) { timerEl.innerText = `${h} : ${m} : ${s}`; }
+  }
+  setInterval(tick, 1000);
+  tick();
+})();
+</script>

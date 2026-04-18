@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}My Wishlist - Aurélie Parfum{% endblock %}
+
+{% block content %}
+<div class="py-4">
+    <div class="container">
+        <!-- Header -->
+        <div style="margin-bottom: 2rem;">
+            <h1 style="font-size: 2.5rem; font-weight: 700; color: var(--color-primary);">
+                My Wishlist
+            </h1>
+            <p class="text-muted">
+                Your saved favorite fragrances
+            </p>
+        </div>
+
+        <!-- Wishlist Content (Placeholder) -->
+        <div class="card">
+            <div class="card-body text-center py-8">
+                <div style="font-size: 5rem; margin-bottom: 1rem; opacity: 0.3;">
+                    ♡
+                </div>
+                <h2 style="font-size: 2rem; margin-bottom: 1rem; color: var(--color-secondary);">
+                    Your wishlist is empty
+                </h2>
+                <p class="text-muted" style="font-size: 1.125rem; margin-bottom: 1rem;">
+                    Start adding your favorite fragrances to your wishlist!
+                </p>
+                <p style="background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.05) 100%); padding: 1rem; border-radius: 8px; margin: 2rem auto; max-width: 500px; border-left: 3px solid var(--color-gold);">
+                    <strong>Coming Soon!</strong><br>
+                    <span style="font-size: 0.95rem; color: var(--color-text-light);">
+                        Wishlist functionality will be available soon. Save your favorite products for later!
+                    </span>
+                </p>
+                <a href="{% url 'product_list' %}" class="btn btn-primary" style="font-size: 1.125rem; padding: 1rem 2rem;">
+                    Browse Products
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static admin_list %}
+
+{% block title %}TradeCMS Plugins{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">Home</a>
+    &rsaquo; TradeCMS Plugins
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="results">
+    <h1>TradeCMS Plugins</h1>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    
+    <div class="module">
+        <table cellspacing="0">
+            <thead>
+                <tr>
+                    <th scope="col">Plugin Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Version</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for plugin in plugins %}
+                <tr class="{% cycle 'row1' 'row2' %}">
+                    <td><strong>{{ plugin.info.name|default:plugin.name }}</strong></td>
+                    <td>{{ plugin.info.description|default:"No description available" }}</td>
+                    <td>{{ plugin.info.version|default:"Unknown" }}</td>
+                    <td>{{ plugin.info.author|default:"Unknown" }}</td>
+                    <td>
+                        {% if plugin.is_active %}
+                            <span style="color: green; font-weight: bold;">Active</span>
+                        {% else %}
+                            <span style="color: #666;">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'admin:system_plugin_toggle' plugin.name %}" 
+                           class="button {% if plugin.is_active %}default{% else %}default{% endif %}">
+                            {% if plugin.is_active %}Deactivate{% else %}Activate{% endif %}
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">No plugins found. Add plugins to the plugins/ directory.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="help">
+        <h3>Plugin Management</h3>
+        <p>Here you can manage all TradeCMS plugins. Plugins extend the functionality of your e-commerce store with additional features like analytics, payment gateways, marketing tools, and more.</p>
+        <ul>
+            <li><strong>Activate:</strong> Enable the plugin to start using its features</li>
+            <li><strong>Deactivate:</strong> Disable the plugin while keeping its data</li>
+        </ul>
+        <p>To install new plugins, copy them to the <code>plugins/</code> directory and refresh this page.</p>
+    </div>
+</div>
+
+<style>
+.alert {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+.alert-success {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #3c763d;
+}
+.alert-error {
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    color: #a94442;
+}
+.help {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f8f8;
+    border-radius: 4px;
+}
+.help h3 {
+    margin-top: 0;
+}
+.help code {
+    background: #e8e8e8;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+</style>
+{% endblock %}

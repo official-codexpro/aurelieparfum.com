@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block meta_title %}
+<title>404 — Page Not Found | Aurélie Parfum</title>
+<meta name="robots" content="noindex">
+{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="The page you're looking for doesn't exist. Discover our luxury fragrance collection instead.">
+{% endblock %}
+
+{% block content %}
+<style>
+    .error-page {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4rem 1.5rem;
+        background: #fff;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .error-page::before {
+        content: '404';
+        position: absolute;
+        font-size: 40vw;
+        font-weight: 900;
+        color: rgba(0,0,0,0.03);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        letter-spacing: -0.05em;
+        line-height: 1;
+        font-family: 'Futura', sans-serif;
+    }
+
+    .error-inner {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        max-width: 680px;
+        margin: 0 auto;
+    }
+
+    .error-eyebrow {
+        display: inline-block;
+        font-size: 10px;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: #d4af37;
+        border: 1px solid #d4af37;
+        padding: 6px 20px;
+        margin-bottom: 2.5rem;
+    }
+
+    .error-code {
+        font-size: clamp(5rem, 15vw, 10rem);
+        font-weight: 900;
+        color: #000;
+        line-height: 1;
+        letter-spacing: -0.04em;
+        font-family: 'Futura', sans-serif;
+        margin-bottom: 0.5rem;
+    }
+
+    .error-code span {
+        display: inline-block;
+        color: #d4af37;
+    }
+
+    .error-title {
+        font-size: clamp(1.2rem, 3vw, 1.8rem);
+        font-weight: 400;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #111;
+        margin-bottom: 1.5rem;
+        font-family: 'Futura', sans-serif;
+    }
+
+    .error-divider {
+        width: 60px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #d4af37, transparent);
+        margin: 0 auto 2rem;
+    }
+
+    .error-message {
+        font-size: 1rem;
+        color: #666;
+        line-height: 1.9;
+        margin-bottom: 3rem;
+        max-width: 480px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .error-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 4rem;
+    }
+
+    .error-btn-primary {
+        display: inline-block;
+        padding: 14px 36px;
+        background: #000;
+        color: #fff;
+        text-decoration: none;
+        font-size: 10px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        font-family: 'Futura', sans-serif;
+    }
+
+    .error-btn-primary:hover {
+        background: #d4af37;
+        color: #000;
+        transform: translateY(-2px);
+    }
+
+    .error-btn-outline {
+        display: inline-block;
+        padding: 13px 36px;
+        border: 1px solid #000;
+        color: #000;
+        text-decoration: none;
+        font-size: 10px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        font-family: 'Futura', sans-serif;
+    }
+
+    .error-btn-outline:hover {
+        background: #000;
+        color: #fff;
+        transform: translateY(-2px);
+    }
+
+    .error-collections {
+        border-top: 1px solid rgba(0,0,0,0.08);
+        padding-top: 3rem;
+    }
+
+    .error-collections-label {
+        font-size: 9px;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: #999;
+        margin-bottom: 1.5rem;
+    }
+
+    .error-links {
+        display: flex;
+        gap: 0;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .error-link {
+        display: inline-block;
+        padding: 10px 24px;
+        font-size: 10px;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: #111;
+        text-decoration: none;
+        border: 1px solid rgba(0,0,0,0.1);
+        margin: 4px;
+        transition: all 0.25s ease;
+    }
+
+    .error-link:hover {
+        border-color: #d4af37;
+        color: #d4af37;
+    }
+
+    .error-scent-icon {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+        display: block;
+        animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+</style>
+
+<div class="error-page">
+    <div class="error-inner">
+        <span class="error-scent-icon">🌸</span>
+
+        <div class="error-eyebrow">Aurélie Parfum</div>
+
+        <div class="error-code">4<span>0</span>4</div>
+
+        <h1 class="error-title">Page Not Found</h1>
+
+        <div class="error-divider"></div>
+
+        <p class="error-message">
+            Like a fleeting fragrance, this page has vanished into the air.<br>
+            The scent you're searching for doesn't exist here — but our collection awaits.
+        </p>
+
+        <div class="error-actions">
+            <a href="{% url 'home' %}" class="error-btn-primary">Return Home</a>
+            <a href="{% url 'product_list' %}" class="error-btn-outline">Explore Fragrances</a>
+        </div>
+
+        <div class="error-collections">
+            <p class="error-collections-label">Or discover one of our collections</p>
+            <div class="error-links">
+                <a href="/category/women-perfume/" class="error-link">Women</a>
+                <a href="/category/men-perfume/" class="error-link">Men</a>
+                <a href="/category/roll-on/" class="error-link">Roll-On</a>
+                <a href="{% url 'contact_us' %}" class="error-link">Contact</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,311 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if category %}{{ category.name }} - {% endif %}Products - Aurélie Parfum
+{% endblock %}
+
+{% block theme_styles %}
+
+{% endblock %}
+
+{% block content %}
+<!-- ═══════════════════════════════════════════════════════════
+    INCLUDE hero seciton hare
+═══════════════════════════════════════════════════════════ -->
+{% include "include/hero/product-list-hero.html" %}
+
+<div class="py-10 md:py-14">
+  <div class="max-w-[1700px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- ═══════════════════════════════════════════════════════════
+    FILTER SECTION START HERE
+═══════════════════════════════════════════════════════════ -->
+<div class="responsive-filter-container" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.5rem; margin-bottom: 3rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.1); font-family: sans-serif;">
+
+  <style>
+    @media (max-width: 768px) {
+      .responsive-filter-container { flex-direction: column !important; align-items: flex-start !important; gap: 1rem !important; }
+      .sort-wrapper { margin-left: 0 !important; width: 100%; justify-content: space-between !important; }
+    }
+  </style>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+
+    <a href="/products/" class="filter-link" 
+       style="padding: 0.5rem 1.25rem; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; border: 1px solid rgba(0,0,0,0.2); text-decoration: none; transition: all 0.2s ease-in-out; color: black;"
+       onmouseover="this.style.backgroundColor='black'; this.style.color='white';" 
+       onmouseout="if(!this.classList.contains('bg-black')){this.style.backgroundColor='transparent'; this.style.color='black';}">
+      All
+    </a>
+
+    <a href="/category/men-perfume/" class="filter-link" 
+       style="padding: 0.5rem 1.25rem; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; border: 1px solid rgba(0,0,0,0.2); text-decoration: none; transition: all 0.2s ease-in-out; color: black;"
+       onmouseover="this.style.backgroundColor='black'; this.style.color='white';" 
+       onmouseout="if(!this.classList.contains('bg-black')){this.style.backgroundColor='transparent'; this.style.color='black';}">
+      Men Perfume
+    </a>
+
+    <a href="/category/women-perfume/" class="filter-link" 
+       style="padding: 0.5rem 1.25rem; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; border: 1px solid rgba(0,0,0,0.2); text-decoration: none; transition: all 0.2s ease-in-out; color: black;"
+       onmouseover="this.style.backgroundColor='black'; this.style.color='white';" 
+       onmouseout="if(!this.classList.contains('bg-black')){this.style.backgroundColor='transparent'; this.style.color='black';}">
+      Women Perfume
+    </a>
+
+    <a href="/category/men-roll-on/" class="filter-link" 
+       style="padding: 0.5rem 1.25rem; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; border: 1px solid rgba(0,0,0,0.2); text-decoration: none; transition: all 0.2s ease-in-out; color: black;"
+       onmouseover="this.style.backgroundColor='black'; this.style.color='white';" 
+       onmouseout="if(!this.classList.contains('bg-black')){this.style.backgroundColor='transparent'; this.style.color='black';}">
+      Men Roll-On
+    </a>
+
+    <a href="/category/women-roll-on/" class="filter-link" 
+       style="padding: 0.5rem 1.25rem; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; border: 1px solid rgba(0,0,0,0.2); text-decoration: none; transition: all 0.2s ease-in-out; color: black;"
+       onmouseover="this.style.backgroundColor='black'; this.style.color='white';" 
+       onmouseout="if(!this.classList.contains('bg-black')){this.style.backgroundColor='transparent'; this.style.color='black';}">
+      Women Roll-On
+    </a>
+
+  </div>
+
+  <div class="sort-wrapper" style="display: flex; align-items: center; gap: 0.75rem; margin-left: auto;">
+    <span style="font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: #9ca3af;">
+      Sort By
+    </span>
+
+    <select id="priceFilter"
+      style="appearance: none; border: 1px solid rgba(0,0,0,0.3); padding: 0.5rem 1rem; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; background-color: white; cursor: pointer; outline: none; transition: border-color 0.2s;">
+      <option value="">Price Range</option>
+      <option value="0-499">Under ₹499</option>
+      <option value="500-999">₹500 - ₹999</option>
+      <option value="1000-1999">₹1000 - ₹1999</option>
+      <option value="2000">Above ₹2000</option>
+    </select>
+  </div>
+
+</div>
+<!-- ═══════════════════════════════════════════════════════════
+    PRODUCT GRID SECITON START HERE
+═══════════════════════════════════════════════════════════ -->
+    {% if products %}
+    <!-- GRID -->
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-10">
+
+{% for product in products %}
+<div class="group product-card" data-price="{{ product.price }}">
+    <!-- CARD -->
+  <div class="group bg-white border border-black/10 overflow-hidden
+    transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
+    hover:shadow-[0_10px_30px_rgba(0,0,0,0.06)] hover:-translate-y-[2px]">
+
+    <!-- IMAGE -->
+    <a href="{{ product.get_absolute_url }}" class="block relative aspect-square bg-[#f7f7f7] overflow-hidden">
+
+        {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}"
+            class="absolute inset-0 w-full h-full object-contain p-6
+            transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]
+            group-hover:scale-[1.04] group-hover:opacity-0">
+        {% endif %}
+
+        {% with product.images.all|first as hover_image %}
+        {% if hover_image %}
+        <img src="{{ hover_image.image.url }}" alt="{{ product.name }} hover"
+            class="absolute inset-0 w-full h-full object-contain p-6 opacity-0
+            transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]
+            group-hover:opacity-100 group-hover:scale-100">
+        {% endif %}
+        {% endwith %}
+
+    </a>
+
+    <!-- CONTENT -->
+    <div class="px-4 py-4">
+
+        <!-- CATEGORY -->
+        <div class="text-[9px] tracking-[0.25em] uppercase text-black/40 mb-1">
+            {{ product.category.name }}
+        </div>
+
+        <!-- TITLE -->
+        <h3 class="text-[13px] tracking-[0.1em] uppercase text-black font-medium mb-2 leading-tight
+            transition-colors duration-300">
+            {{ product.name }}
+        </h3>
+
+        <!-- PRICE -->
+        <div class="flex items-center justify-between">
+
+            <span class="text-[15px] font-semibold text-black">
+                ₹{{ product.price }}
+            </span>
+
+            <!-- MICRO ICON -->
+            <span class="text-black/30 text-sm 
+                transition-all duration-300 group-hover:text-black group-hover:translate-x-[3px]">
+                →
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+{% endfor %}
+
+</div>
+
+    <!-- PAGINATION -->
+    {% if is_paginated %}
+    <div class="flex justify-center items-center gap-4 mt-16 text-[11px] tracking-[0.2em] uppercase">
+
+        {% if page_obj.has_previous %}
+            <a href="?page=1" class="text-black/60 hover:text-black transition">First</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="text-black/60 hover:text-black transition">Prev</a>
+        {% endif %}
+
+        <span class="text-black">
+            {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="text-black/60 hover:text-black transition">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="text-black/60 hover:text-black transition">Last</a>
+        {% endif %}
+
+    </div>
+    {% endif %}
+
+    {% else %}
+
+    <!-- EMPTY STATE -->
+    <div class="text-center py-20">
+
+        <div class="text-4xl text-black/20 mb-4">✦</div>
+
+        <p class="text-black/60 text-sm mb-6">
+            No products found matching your criteria.
+        </p>
+
+        <a href="{% url 'product_list' %}"
+           class="inline-block border border-black px-8 py-3 text-[11px] tracking-[0.25em] uppercase text-black hover:bg-black hover:text-white transition">
+
+            View All Products
+
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+</div>
+<!-- ═══════════════════════════════════════════════════════════
+    FILTER SECTION SCRIPT START HERE
+═══════════════════════════════════════════════════════════ -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const priceFilter = document.getElementById("priceFilter");
+  const products = document.querySelectorAll(".product-card");
+  const links = document.querySelectorAll(".filter-link");
+
+  /* ---------- HELPER: CLEAN URL ---------- */
+  function normalizePath(path) {
+    return path.replace(/\/+$/, ""); // remove trailing slash
+  }
+
+  const currentPath = normalizePath(window.location.pathname);
+
+  /* ---------- PRICE FILTER ---------- */
+  if (priceFilter) {
+    priceFilter.addEventListener("change", function () {
+      const value = this.value;
+
+      products.forEach(function (product) {
+        const price = parseFloat(product.dataset.price) || 0;
+        let show = true;
+
+        if (value === "0-499") {
+          show = price <= 499;
+        } else if (value === "500-999") {
+          show = price >= 500 && price <= 999;
+        } else if (value === "1000-1999") {
+          show = price >= 1000 && price <= 1999;
+        } else if (value === "2000") {
+          show = price >= 2000;
+        }
+
+        product.style.display = show ? "" : "none";
+      });
+    });
+  }
+
+  /* ---------- ACTIVE LINK SYSTEM (PERFECT) ---------- */
+  links.forEach(function (link) {
+
+    const linkURL = new URL(link.href);
+    const linkPath = normalizePath(linkURL.pathname);
+
+    // Reset everything first
+    link.classList.remove("active");
+    link.style.pointerEvents = "auto";
+    link.style.cursor = "pointer";
+
+    /* 🔥 MATCH LOGIC */
+    let isActive = false;
+
+    // Exact match (best case)
+    if (currentPath === linkPath) {
+      isActive = true;
+    }
+
+    // Category pages match
+    else if (
+      linkPath !== "/products" &&
+      currentPath.startsWith(linkPath)
+    ) {
+      isActive = true;
+    }
+
+    /* APPLY ACTIVE */
+    if (isActive) {
+      link.classList.add("active");
+
+      // optional UX polish
+      link.style.pointerEvents = "none";
+      link.style.cursor = "default";
+    }
+
+  });
+
+});
+</script>
+<style>
+  .filter-link {
+    padding: 0.55rem 1.3rem;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid rgba(0,0,0,0.2);
+    text-decoration: none;
+    color: black;
+    background: transparent;
+    transition: all 0.25s ease;
+  }
+
+  /* Hover */
+  .filter-link:hover {
+    background: black;
+    color: white;
+  }
+
+  /* ✅ ACTIVE FIX (MAIN) */
+  .filter-link.active {
+    background: black !important;
+    color: white !important;
+    border-color: black !important;
+  }
+</style>
+{% endblock %}
